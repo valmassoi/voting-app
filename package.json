@@ -1,0 +1,26 @@
+{
+  "name": "voting-app",
+  "version": "0.1.0",
+  "description": "A full stack polling JavaScript app",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/valmassoi/voting-app.git"
+  },
+  "author": "valmassoi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/valmassoi/voting-app/issues"
+  },
+  "homepage": "https://github.com/valmassoi/voting-app#readme",
+  "dependencies": {
+    "express": "^4.13.4",
+    "mongodb": "^2.1.18"
+  },
+  "engines": {
+    "node": "4.4.1"
+  }
+}
