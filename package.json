@@ -17,8 +17,10 @@
   },
   "homepage": "https://github.com/valmassoi/voting-app#readme",
   "dependencies": {
+    "bad-language-filter": "^1.0.2",
     "express": "^4.13.4",
-    "mongodb": "^2.1.18"
+    "mongodb": "^2.1.18",
+    "webpack": "^1.13.0"
   },
   "engines": {
     "node": "4.4.1"

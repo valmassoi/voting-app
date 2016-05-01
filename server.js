@@ -7,12 +7,21 @@ const mongo = require('mongodb').MongoClient
 
 const app = express()
 
+const BadLanguageFilter = require('bad-language-filter')
+const filter = new BadLanguageFilter()
+let input = "test"
+let clean = console.log(filter.replaceWords(input + " ", "naughty-word "))
+
+
+
 const dbUrl = process.env.MONGODB_URI || 'mongodb://localhost:27017/data'
 
-app.use(express.static(__dirname + '/public'))
+app.use(express.static(__dirname + '/public/'))
 
-app.get('/', (req, res) => {
-  res.sendFile('/public/index.html')
+app.get('/:src', (req, res) => {
+  let src = req.params.src
+  res.render(src)
+  //res.sendFile('/public/' + src)
 })
 
 app.get('*', (req, res) => {
