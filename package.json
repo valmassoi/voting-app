@@ -2,9 +2,10 @@
   "name": "voting-app",
   "version": "0.1.0",
   "description": "A full stack polling JavaScript app",
-  "main": "server.js",
+  "main": "webpack.config.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack-dev-server --content-base public --inline --hot"
   },
   "repository": {
     "type": "git",
@@ -20,7 +21,21 @@
     "bad-language-filter": "^1.0.2",
     "express": "^4.13.4",
     "mongodb": "^2.1.18",
-    "webpack": "^1.13.0"
+    "webpack": "^1.13.0",
+    "webpack-dev-server": "^1.14.1",
+    "babel-loader": "^6.2.0",
+    "babel-plugin-add-module-exports": "^0.1.2",
+    "babel-plugin-react-html-attrs": "^2.0.0",
+    "babel-plugin-transform-class-properties": "^6.3.13",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "babel-preset-stage-0": "^6.3.13",
+    "flux": "^2.1.1",
+    "history": "^1.17.0",
+    "react": "^0.14.6",
+    "react-dom": "^0.14.6",
+    "react-router": "^1.0.3"
   },
   "engines": {
     "node": "4.4.1"
