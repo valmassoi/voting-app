@@ -20,7 +20,7 @@ export default class Nav extends React.Component {
     const { collapsed } = this.state
     const homeClass = location.pathname === "/" ? "active" : ""
     const createClass = location.pathname.match(/^\/create/) ? "active" : ""
-    const settingsClass = location.pathname.match(/^\/settings/) ? "active" : ""
+    const signupClass = location.pathname.match(/^\/signup/) ? "active" : ""
     const navClass = collapsed ? "collapse" : ""
     return(
       <nav class="navbar navbar-default navbar-fixed-top">

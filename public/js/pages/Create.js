@@ -37,6 +37,11 @@ export default class Create extends React.Component {
   }
 
   render() {
+    let formBtns = {
+      float: 'right !important',
+      marginRight: '16px'
+    }
+
     return(
       <div>
       <div class="onboard">
@@ -66,13 +71,13 @@ export default class Create extends React.Component {
               <div class="form-group">
                 <div class="col-lg-10 col-lg-offset-2">
                   <button class="btn btn-primary btn-sm" onClick={this.addOption.bind(this)}><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
-                  <button class="btn btn-default btn-sm" onClick={this.removeOption.bind(this)}><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
+                  <button class="btn btn-default btn-sm" style={{marginLeft: '5px'}} onClick={this.removeOption.bind(this)}><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
                 </div>
               </div>
               <div class="form-group">
-                <div class="col-lg-10 col-lg-offset-2" style={{float: 'right !important'}}>
+                <div style={formBtns}>
                   <button type="reset" class="btn btn-default" onClick={this.reset.bind(this)}>Reset</button>
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="submit" style={{marginLeft: '10px'}} class="btn btn-primary">Submit</button>
                 </div>
               </div>
             </fieldset>
