@@ -19,5 +19,7 @@
   .form-container {
     margin-right: auto;
     margin-left: auto; } }
+.hidden {
+  display: none !important; }
 
 /*# sourceMappingURL=main.css.map */

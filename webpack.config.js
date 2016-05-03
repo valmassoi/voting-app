@@ -1,10 +1,11 @@
-var debug = process.env.NODE_ENV !== "production";
-var webpack = require('webpack');
+var debug = process.env.NODE_ENV !== "production"
+var webpack = require('webpack')
+var path = require('path')
 
 module.exports = {
-  context: __dirname,
+  context: path.join(__dirname, "public"),
   devtool: debug ? "inline-sourcemap" : null,
-  entry: "./public/js/routes.js",
+  entry: "./js/routes.js",
   module: {
     loaders: [
       {
@@ -15,11 +16,19 @@ module.exports = {
           presets: ['react', 'es2015', 'stage-0'],
           plugins: ['react-html-attrs', 'transform-class-properties', 'transform-decorators-legacy'],
         }
+      },
+      {
+        test: /\.sass$/,
+        exclude: /(node_modules|bower_components)/,
+        loader: ["style", "css", "sass"]
       }
     ]
   },
+  sassLoader: {
+    includePaths: [path.resolve(__dirname, "./public/styles")]
+  },
   output: {
-    path: __dirname + "/public/js/",
+    path: __dirname + "/public/",
     filename: "routes.min.js"
   },
   plugins: debug ? [] : [
@@ -27,4 +36,4 @@ module.exports = {
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false }),
   ],
-};
+}

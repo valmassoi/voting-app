@@ -40,5 +40,9 @@
   "engines": {
     "node": "4.4.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "css-loader": "^0.23.1",
+    "node-sass": "^3.7.0",
+    "sass-loader": "^3.2.0"
+  }
 }

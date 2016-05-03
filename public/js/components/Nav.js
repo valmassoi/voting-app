@@ -6,6 +6,7 @@ export default class Nav extends React.Component {
    super()
    this.state = {
      collapsed: true,
+     loggedIn: false
    }
  }
 
@@ -14,14 +15,20 @@ export default class Nav extends React.Component {
    const collapsed = !this.state.collapsed
    this.setState({collapsed})
  }
+ toggleLog() {
+   const loggedIn = !this.state.loggedIn
+   this.setState({loggedIn})
+ }
 
   render(){
     const { location } = this.props
-    const { collapsed } = this.state
+    const { collapsed, loggedIn } = this.state
     const homeClass = location.pathname === "/" ? "active" : ""
     const createClass = location.pathname.match(/^\/create/) ? "active" : ""
     const signupClass = location.pathname.match(/^\/signup/) ? "active" : ""
     const navClass = collapsed ? "collapse" : ""
+    const loggedoutClass = loggedIn ? "hidden" : ""
+    const loggedinClass = loggedIn ? "" : "hidden"
     return(
       <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
@@ -45,8 +52,6 @@ export default class Nav extends React.Component {
                   <li><a href="#">Recent</a></li>
                   <li><a href="#">Popular</a></li>
                   <li><a href="#">Random</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">Separated link</a></li>
                 </ul>
               </li>
             </ul>
@@ -56,9 +61,24 @@ export default class Nav extends React.Component {
               </div>
               <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
             </form>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="#">Login</a></li>
-            </ul>
+            <div class ={loggedoutClass}>
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="#" onClick={this.toggleLog.bind(this)}>Login</a></li>
+              </ul>
+            </div>
+            <div class ={loggedinClass}>
+              <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">UserName <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="#">My Polls</a></li>
+                  <li><a href="#">Change Password</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#" onClick={this.toggleLog.bind(this)}>Logout</a></li>
+                </ul>
+              </li>
+              </ul>
+            </div>
           </div>
         </div>
       </nav>
