@@ -7,13 +7,6 @@ const mongo = require('mongodb').MongoClient
 
 const app = express()
 
-const BadLanguageFilter = require('bad-language-filter')
-const filter = new BadLanguageFilter()
-let input = "test"
-let clean = console.log(filter.replaceWords(input + " ", "naughty-word "))
-
-
-
 const dbUrl = process.env.MONGODB_URI || 'mongodb://localhost:27017/data'
 
 app.use(express.static(__dirname + '/public/'))
