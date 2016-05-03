@@ -35,6 +35,11 @@ export default class Create extends React.Component {
     let options = ["iPhone", "Android"]
     this.setState({ options: options })
   }
+  alertUser(){
+    if (true){
+
+    }
+  }
 
   render() {
     let formBtns = {
@@ -47,43 +52,47 @@ export default class Create extends React.Component {
       <div class="onboard">
         <h1> Create a new poll </h1>
       </div>
-        <div class="form-container centered">
-          <form class="form-horizontal">
-            <fieldset>
-              <legend>New poll</legend>
-              <div class="form-group">
-                <label class="col-lg-2 control-label"><b>Title</b></label>{/*<!-- for="inputEmail" -->*/}
-                <div class="col-lg-10">
-                  <input class="form-control" id="inputTitle" placeholder="iPhone or Android?" type="text" />
-                </div>
-              </div>
-              {this.state.options.map((placeholder, i) => {
-                return(
-                  <div class="form-group" key={"div1-"+i}>
-                    <label class="col-lg-2 control-label" key={"optionLabel"+i}>Option {i+1}</label>
-                    <div class="col-lg-10" key={"div2-"+i}>
-                      <input class="form-control" key={"option"+i} placeholder={placeholder} type="text" />
-                    </div>
-                  </div>
-                )
-               }
-              )}
-              <div class="form-group">
-                <div class="col-lg-10 col-lg-offset-2">
-                  <button class="btn btn-primary btn-sm" onClick={this.addOption.bind(this)}><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
-                  <button class="btn btn-default btn-sm" style={{marginLeft: '5px'}} onClick={this.removeOption.bind(this)}><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
-                </div>
-              </div>
-              <div class="form-group">
-                <div style={formBtns}>
-                  <button type="reset" class="btn btn-default" onClick={this.reset.bind(this)}>Reset</button>
-                  <button type="submit" style={{marginLeft: '10px'}} class="btn btn-primary">Submit</button>
-                </div>
-              </div>
-            </fieldset>
-          </form>
-        </div>
+      <div class="alert alert-dismissible alert-success centered" style={{width: '400px', marginTop: '10px'}}>
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Success!</strong> Your poll can be viewed at <a href="#" class="alert-link">theURL</a>
       </div>
+      <div class="form-container centered">
+        <form class="form-horizontal">
+          <fieldset>
+            <legend>New poll</legend>
+            <div class="form-group">
+              <label class="col-lg-2 control-label"><b>Title</b></label>{/*<!-- for="inputEmail" -->*/}
+              <div class="col-lg-10">
+                <input class="form-control" id="inputTitle" placeholder="iPhone or Android?" type="text" />
+              </div>
+            </div>
+            {this.state.options.map((placeholder, i) => {
+              return(
+                <div class="form-group" key={"div1-"+i}>
+                  <label class="col-lg-2 control-label" key={"optionLabel"+i}>Option {i+1}</label>
+                  <div class="col-lg-10" key={"div2-"+i}>
+                    <input class="form-control" key={"option"+i} placeholder={placeholder} type="text" />
+                  </div>
+                </div>
+              )
+             }
+            )}
+            <div class="form-group">
+              <div class="col-lg-10 col-lg-offset-2">
+                <button class="btn btn-primary btn-sm" onClick={this.addOption.bind(this)}><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+                <button class="btn btn-default btn-sm" style={{marginLeft: '5px'}} onClick={this.removeOption.bind(this)}><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
+              </div>
+            </div>
+            <div class="form-group">
+              <div style={formBtns}>
+                <button type="reset" class="btn btn-default" onClick={this.reset.bind(this)}>Reset</button>
+                <button type="submit" style={{marginLeft: '10px'}} class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
     )
   }
 }
