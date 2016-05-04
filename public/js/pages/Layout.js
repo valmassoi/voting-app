@@ -6,6 +6,7 @@ import Nav from "../components/Nav"
 
 export default class Layout extends React.Component {
   render(){
+    console.log(this.props);
     const { location } = this.props
     return(
       <div>

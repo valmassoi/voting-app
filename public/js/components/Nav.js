@@ -25,7 +25,8 @@ export default class Nav extends React.Component {
     const { collapsed, loggedIn } = this.state
     const homeClass = location.pathname === "/" ? "active" : ""
     const createClass = location.pathname.match(/^\/create/) ? "active" : ""
-    const signupClass = location.pathname.match(/^\/signup/) ? "active" : ""
+    // const signupClass = location.pathname.match(/^\/signup/) ? "active" : ""
+    const loginClass = location.pathname.match(/^\/login/) ? "active" : ""
     const navClass = collapsed ? "collapse" : ""
     const loggedoutClass = loggedIn ? "hidden" : ""
     const loggedinClass = loggedIn ? "" : "hidden"
@@ -63,7 +64,7 @@ export default class Nav extends React.Component {
             </form>
             <div class ={loggedoutClass}>
               <ul class="nav navbar-nav navbar-right">
-                <li><a href="#" onClick={this.toggleLog.bind(this)}>Login</a></li>
+                <li class={loginClass}><Link to="login" onClick={this.toggleCollapse.bind(this)}>Login</Link></li>
               </ul>
             </div>
             <div class ={loggedinClass}>
@@ -71,8 +72,8 @@ export default class Nav extends React.Component {
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">UserName <span class="caret"></span></a>
                 <ul class="dropdown-menu" role="menu">
-                  <li><a href="#">My Polls</a></li>
-                  <li><a href="#">Change Password</a></li>
+                  <li class={loginClass}><Link to="dashboard" onClick={this.toggleCollapse.bind(this)}>My Polls</Link></li>
+                  <li class={loginClass}><Link to="password" onClick={this.toggleCollapse.bind(this)}>Change Password</Link></li>
                   <li class="divider"></li>
                   <li><a href="#" onClick={this.toggleLog.bind(this)}>Logout</a></li>
                 </ul>

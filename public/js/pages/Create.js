@@ -1,4 +1,5 @@
 import React from "react"
+import { Link } from "react-router"
 // const BadLanguageFilter = require('bad-language-filter')
 
 export default class Create extends React.Component {
@@ -49,7 +50,7 @@ export default class Create extends React.Component {
 
     return(
       <div>
-      <div class="onboard">
+      <div class="title">
         <h1> Create a new poll </h1>
       </div>
       <div class="alert alert-dismissible alert-success centered" style={{width: '400px', marginTop: '10px'}}>
