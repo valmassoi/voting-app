@@ -1,12 +1,12 @@
 .centered {
   margin: 0px auto; }
 
-.onboard {
+.title {
   margin-top: 64px;
   padding: 50px;
-  background: linear-gradient(to bottom, #499bea 0%, #007ce5 100%) fixed; }
+  background: linear-gradient(to bottom, #499bea 0%, #0078dc 100%) fixed; }
 
-.onboard h1, h2, h3, h4, h5, h6, p {
+.title h1, h2, h3, h4, h5, h6, p {
   color: white !important; }
 
 .form-container {
