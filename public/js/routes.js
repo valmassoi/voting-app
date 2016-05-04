@@ -5,8 +5,12 @@ import createHashHistory from 'history/lib/createHashHistory'
 // require("../styles/main.sass")
 
 import Create from "./pages/Create"
+import Dashboard from "./pages/Dashboard"
 import Home from "./pages/Home"
 import Layout from "./pages/Layout"
+import Login from "./pages/Login"
+import Password from "./pages/Password"
+import Poll from "./pages/Poll"
 import Signup from "./pages/Signup"
 
 const app = document.getElementById('app')
@@ -19,6 +23,10 @@ ReactDOM.render(
       <IndexRoute component={Home}></IndexRoute>
       <Route path="create" component={Create}></Route>
       <Route path="signup" component={Signup}></Route>
+      <Route path="password" component={Password}></Route>
+      <Route path="login" component={Login}></Route>
+      <Route path="dashboard" component={Dashboard}></Route>
+      <Route path="poll" component={Poll}></Route>
     </Route>
   </Router>,
 app)
