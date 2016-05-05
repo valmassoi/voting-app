@@ -1,5 +1,6 @@
 import React from "react"
 import { Link } from "react-router"
+
 // const BadLanguageFilter = require('bad-language-filter')
 
 export default class Create extends React.Component {
@@ -7,6 +8,7 @@ export default class Create extends React.Component {
    super(props);
 
    this.state = {
+     title: "",
      options: ["iPhone", "Android"]
    }
  }
@@ -36,10 +38,25 @@ export default class Create extends React.Component {
     let options = ["iPhone", "Android"]
     this.setState({ options: options })
   }
+  submit(){
+    let { title, options } = this.state
+    console.log(title, options);
+    //TODO alert user, push data to mongo,
+  }
   alertUser(){
     if (true){
 
     }
+  }
+  handleTitleChange(event) {
+   this.setState({title: event.target.value.substr(0, 20)});
+  }
+  handleOptionChange(event) {
+    let id = event.target.id
+    let i = id[id.length -1]
+    let options = this.state.options
+    options[i] = event.target.value
+    this.setState({ options });
   }
 
   render() {
@@ -55,7 +72,7 @@ export default class Create extends React.Component {
       </div>
       <div class="alert alert-dismissible alert-success centered" style={{width: '400px', marginTop: '10px'}}>
         <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <strong>Success!</strong> Your poll can be viewed at <a href="#" class="alert-link">theURL</a>
+        <strong>Success!</strong> Your poll can be viewed at <Link to="poll">TestPollurl</Link>
       </div>
       <div class="form-container centered">
         <form class="form-horizontal">
@@ -64,7 +81,7 @@ export default class Create extends React.Component {
             <div class="form-group">
               <label class="col-lg-2 control-label"><b>Title</b></label>{/*<!-- for="inputEmail" -->*/}
               <div class="col-lg-10">
-                <input class="form-control" id="inputTitle" placeholder="iPhone or Android?" type="text" />
+                <input class="form-control" id="inputTitle" placeholder="iPhone or Android?" type="text" value={this.state.title} onChange={this.handleTitleChange.bind(this)}/>
               </div>
             </div>
             {this.state.options.map((placeholder, i) => {
@@ -72,7 +89,7 @@ export default class Create extends React.Component {
                 <div class="form-group" key={"div1-"+i}>
                   <label class="col-lg-2 control-label" key={"optionLabel"+i}>Option {i+1}</label>
                   <div class="col-lg-10" key={"div2-"+i}>
-                    <input class="form-control" key={"option"+i} placeholder={placeholder} type="text" />
+                    <input class="form-control" key={"option"+i} id={"option"+i} placeholder={placeholder} type="text" onChange={this.handleOptionChange.bind(this)} />
                   </div>
                 </div>
               )
@@ -87,7 +104,7 @@ export default class Create extends React.Component {
             <div class="form-group">
               <div style={formBtns}>
                 <button type="reset" class="btn btn-default" onClick={this.reset.bind(this)}>Reset</button>
-                <button type="submit" style={{marginLeft: '10px'}} class="btn btn-primary">Submit</button>
+                <button type="submit" style={{marginLeft: '10px'}} class="btn btn-primary" onClick={this.submit.bind(this)}>Submit</button>
               </div>
             </div>
           </fieldset>

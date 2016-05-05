@@ -3,21 +3,26 @@ import { Link } from "react-router"
 // import $ from 'jquery';
 // import jQuery from 'jquery';
 import Chart from 'chart.js'
-// import { Bar } from 'react-chartjs'
-// import {Bar} from 'react-chartjs2'
-const Bar = require("react-chartjs").Bar;
+import { Bar } from 'react-chartjs'
+
+
 
 export default class Poll extends React.Component {
 
 
 
   render(){
-    // console.log(Chart);
+    let pollname = "iPhone or Android"
     let chartData = {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        labels: ["iPhone", "Android"],
         datasets: [{
             label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3]
+            backgroundColor: "rgba(255,99,132,0.2)",
+            borderColor: "rgba(255,99,132,1)",
+            borderWidth: 1,
+            hoverBackgroundColor: "rgba(255,99,132,0.4)",
+            hoverBorderColor: "rgba(255,99,132,1)",
+            data: [50, 2]
         }]
     }
 
@@ -28,15 +33,19 @@ export default class Poll extends React.Component {
                     beginAtZero:true
                 }
             }]
+        },
+        responsive: true,
+        legend: {
+          onClick: () => console.log("click")
         }
     }
 
     return(
       <div>
         <div class="title">
-          <h1><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Pollname</h1>
+          <h1><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> {pollname}</h1>
         </div>
-        <Bar data={chartData} options={chartOptions} width="600" height="250"/>
+        <Bar data={chartData} options={chartOptions} />
       </div>
     )
   }

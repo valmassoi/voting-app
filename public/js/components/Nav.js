@@ -3,22 +3,25 @@ import { IndexLink, Link } from "react-router"
 
 export default class Nav extends React.Component {
   constructor() {
-   super()
-   this.state = {
-     collapsed: true,
-     loggedIn: false
-   }
- }
+    super()
+    this.state = {
+      collapsed: true,
+      loggedIn: localStorage.getItem("_polley_loggedIn")||false,
+      userName: localStorage.getItem("_polley_user_email")
+    }
+  }
 
- toggleCollapse() {
-   console.log("collapse");
-   const collapsed = !this.state.collapsed
-   this.setState({collapsed})
- }
- toggleLog() {
-   const loggedIn = !this.state.loggedIn
-   this.setState({loggedIn})
- }
+  toggleCollapse() {
+    console.log("collapse");
+    const collapsed = !this.state.collapsed
+    this.setState({collapsed})
+  }
+  logout() {
+    const loggedIn = false
+    localStorage.setItem("_polley_user_email", "")
+    localStorage.setItem("_polley_loggedIn", false)
+    this.setState({loggedIn})
+  }
 
   render(){
     const { location } = this.props
@@ -70,12 +73,12 @@ export default class Nav extends React.Component {
             <div class ={loggedinClass}>
               <ul class="nav navbar-nav navbar-right">
               <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">UserName <span class="caret"></span></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{this.state.userName}<span class="caret"></span></a>
                 <ul class="dropdown-menu" role="menu">
                   <li class={loginClass}><Link to="dashboard" onClick={this.toggleCollapse.bind(this)}>My Polls</Link></li>
                   <li class={loginClass}><Link to="password" onClick={this.toggleCollapse.bind(this)}>Change Password</Link></li>
                   <li class="divider"></li>
-                  <li><a href="#" onClick={this.toggleLog.bind(this)}>Logout</a></li>
+                  <li><a href="#" onClick={this.logout.bind(this)}>Logout</a></li>
                 </ul>
               </li>
               </ul>
