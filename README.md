@@ -6,3 +6,7 @@ Hosted at https://pulls.herokuapp.com
 
 ## Built for FreeCodeCamp
 https://www.freecodecamp.com/challenges/build-a-voting-app
+
+## TODO
+[ ] Login with Twitter
+[ ] Block ip/user from voting multiple times
