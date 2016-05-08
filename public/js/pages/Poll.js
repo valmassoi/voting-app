@@ -1,7 +1,6 @@
 import React from "react"
 import { Link } from "react-router"
 import $ from 'jquery';
-// import jQuery from 'jquery';
 import Chart from 'chart.js'
 import { Bar } from 'react-chartjs'
 
@@ -19,7 +18,7 @@ export default class Poll extends React.Component {
   }
 
   componentDidMount() {
-    const url = 'http://192.168.1.48:8081/api/polls' //change to unquie poll
+    const url = 'http://192.168.1.48:8081/api/polls' //TODO change to unquie poll
     console.log("mount poll");
     this.serverRequest = $.getJSON(url, (json) => {
       console.log(json)

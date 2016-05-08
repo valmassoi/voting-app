@@ -48,7 +48,14 @@ app.get('/api/polls', (req, res) => {
     res.end(json)
   })
 })
-
+app.get('/api/polls/POST', (req, res) => {
+  console.log("posting");
+  // .get(req, res, function (data) {
+  //        data = JSON.parse(data);
+  //        console.log(data);
+  //       //  res.render('index', { txtName: data.txtName });
+  //    });
+})
 app.get('*', (req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/plain' })
   res.end('404!')

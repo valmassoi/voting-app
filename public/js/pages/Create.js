@@ -41,7 +41,7 @@ export default class Create extends React.Component {
   submit(){
     let { title, options } = this.state
     console.log(title, options);
-    //TODO alert user, push data to mongo,
+    $.post( "http://pulls.herokuapp.com/api/polls/POST", { title, options } );//TODO alert user, CHANGE URL,
   }
   alertUser(){
     if (true){
