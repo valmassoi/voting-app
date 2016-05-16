@@ -5,6 +5,7 @@ const express = require('express')
 const http = require('http')
 const mongo = require('mongodb').MongoClient
 const cors = require('cors')
+const bodyParser = require('body-parser')
 
 const app = express()
 
@@ -12,6 +13,7 @@ const dbUrl = process.env.MONGODB_URI || 'mongodb://localhost:27017/data'
 
 app.use(express.static(__dirname+'/public/'))
 app.use(cors())
+app.use(bodyParser.urlencoded({ extended: true }))
 
 function fetchpolls (sortby, callback){
   let fakeData = {
@@ -48,13 +50,10 @@ app.get('/api/polls', (req, res) => {
     res.end(json)
   })
 })
-app.get('/api/polls/POST', (req, res) => {
-  console.log("posting");
-  // .get(req, res, function (data) {
-  //        data = JSON.parse(data);
-  //        console.log(data);
-  //       //  res.render('index', { txtName: data.txtName });
-  //    });
+app.post('/api/polls/POST', (req, res) => {
+  console.log(req.body);
+  res.writeHead(200, { 'Content-Type':  'application/json' })
+  res.end('{"success" : "POST success", "status" : 200}');
 })
 app.get('*', (req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/plain' })

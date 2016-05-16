@@ -1,6 +1,6 @@
 import React from "react"
 import { Link } from "react-router"
-
+import $ from "jquery"
 // const BadLanguageFilter = require('bad-language-filter')
 
 export default class Create extends React.Component {
@@ -41,11 +41,19 @@ export default class Create extends React.Component {
   submit(){
     let { title, options } = this.state
     console.log(title, options);
-    $.post( "http://pulls.herokuapp.com/api/polls/POST", { title, options } );//TODO alert user, CHANGE URL,
+    //TODO CHANGE URL
+    $.ajax({
+      type: "POST",
+      url: "/api/polls/POST",
+      data: { title, options },
+      success: function(){ this.alertUser() }.bind(this),
+      dataType: "json"
+    })
+
   }
   alertUser(){
     if (true){
-
+      $("#success-alert").removeClass("hidden")
     }
   }
   handleTitleChange(event) {
@@ -70,16 +78,18 @@ export default class Create extends React.Component {
       <div class="title">
         <h1> Create a new poll </h1>
       </div>
-      <div class="alert alert-dismissible alert-success centered" style={{width: '400px', marginTop: '10px'}}>
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <strong>Success!</strong> Your poll can be viewed at <Link to="poll">TestPollurl</Link>
+      <div class="alerts">
+        <div id="success-alert" class="alert alert-dismissible alert-success hidden" style={{width: '400px'}}>
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <strong>Success!</strong> Your poll can be viewed at <Link to="poll">TestPollurl</Link>
+        </div>
       </div>
       <div class="form-container centered">
         <form class="form-horizontal">
           <fieldset>
             <legend>New poll</legend>
             <div class="form-group">
-              <label class="col-lg-2 control-label"><b>Title</b></label>{/*<!-- for="inputEmail" -->*/}
+              <label class="col-lg-2 control-label"><b>Title</b></label>{/*for="inputEmail" */}
               <div class="col-lg-10">
                 <input class="form-control" id="inputTitle" placeholder="iPhone or Android?" type="text" value={this.state.title} onChange={this.handleTitleChange.bind(this)}/>
               </div>
