@@ -4,7 +4,7 @@ import Chart from 'chart.js'
 import { Bar } from 'react-chartjs'
 import PollStore from '../stores/PollStore'
 
-
+//TODO VOTE SECTION, SHARE SECTION
 export default class Poll extends React.Component {
   constructor(props) {
     super(props);

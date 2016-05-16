@@ -6,11 +6,15 @@
   padding: 50px;
   background: linear-gradient(to bottom, #499bea 0%, #0078dc 100%) fixed; }
 
-.title h1, h2, h3, h4, h5, h6, p {
+.title h1, .title h2, .title h3, .title h4, .title h5, .title h6, .title p {
   color: white !important; }
 
-.polls h1, h2, h3, h4, h5, h6, p {
-  color: #444444 !important; }
+.polls {
+  margin: 50px 10px;
+  padding: 30px;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5); }
+  .polls h1, .polls h2, .polls h3, .polls h4, .polls h5, .polls h6, .polls p {
+    color: #444444; }
 
 .form-container {
   max-width: 500px;

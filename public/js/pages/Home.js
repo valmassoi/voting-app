@@ -65,17 +65,21 @@ export default class Home extends React.Component {
           <Link to="signup" class="btn btn-default btn-lg">Signup</Link>
           <h5><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span> or start browsing </h5>
         </div>
-        <div class="polls">
-        {this.state.polls ? this.state.polls.map( (polls, i) => {
-             return (
-               <div key={i}>
-                 <h1 key={polls.data.title+i}>{polls.data.title}</h1>
-                 <h6 key={polls.user.username+i}>By {polls.user.username}</h6>
-                 <Bar key={polls.date+i} data={this.chartData(i)} options={chartOptions} />
-               </div>
-             )
-           })
-         : <p>No poll data</p>}
+        <div class="row">
+          <div class="col-md-1" />
+          <div class="col-md-10">
+          {this.state.polls ? this.state.polls.map( (polls, i) => {
+               return (
+                 <div key={i} class="polls">
+                   <h1 key={polls.data.title+i}><a href={"/poll/"+polls.data.title}>{polls.data.title}</a></h1>
+                   <h6 key={polls.user.username+i}><strong>By {polls.user.username}</strong></h6>
+                   <Bar key={polls.date+i} data={this.chartData(i)} options={chartOptions} />
+                 </div>
+               )
+             })
+           : <p>No poll data</p>}
+           </div>
+           <div class="col-md-1" />
         </div>
       </div>
     )
