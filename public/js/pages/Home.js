@@ -23,20 +23,27 @@ export default class Home extends React.Component {
     })
   }
 
-  render() {
-    let pollname = this.state.polls[0].data.title//TODO make dynamic
-    let chartData = {
-        labels: this.state.polls[0].data.options,
-        datasets: [{
-            label: '# of Votes',
-            backgroundColor: "rgba(255,99,132,0.2)",
-            borderColor: "rgba(255,99,132,1)",
-            borderWidth: 1,
-            hoverBackgroundColor: "rgba(255,99,132,0.4)",
-            hoverBorderColor: "rgba(255,99,132,1)",
-            data: this.state.polls[0].data.results
-        }]
+  chartData(i) {
+    let backgroundColor = ["rgba(255,99,132,.2)","rgba(70,130,180,.2)"],
+        borderColor = ["rgba(255,99,132,1)","rgba(70,130,180,1)"],
+        hoverBackgroundColor = ["rgba(255,99,132,.4)","rgba(70,130,180,.4)"]
+    return {
+      labels: this.state.polls[i].data.options,
+      datasets: [{
+          label: '# of Votes',
+          backgroundColor: backgroundColor[i % 2],
+          borderColor: borderColor[i % 2],
+          borderWidth: 1,
+          hoverBackgroundColor: hoverBackgroundColor[i % 2],
+          hoverBorderColor: borderColor[i % 2],
+          data: this.state.polls[i].data.results
+      }]
     }
+  }
+
+  render() {
+
+
     let chartOptions = {
         scales: {
             yAxes: [{
@@ -61,10 +68,10 @@ export default class Home extends React.Component {
         <div class="polls">
         {this.state.polls ? this.state.polls.map( (polls, i) => {
              return (
-               <div>
-                 <h1 key={"title"+i}>{polls.data.title}</h1>
-                 <h6>By {polls.user.username}</h6>
-                 <Bar key={"bar"+i} data={chartData} options={chartOptions} />
+               <div key={i}>
+                 <h1 key={polls.data.title+i}>{polls.data.title}</h1>
+                 <h6 key={polls.user.username+i}>By {polls.user.username}</h6>
+                 <Bar key={polls.date+i} data={this.chartData(i)} options={chartOptions} />
                </div>
              )
            })

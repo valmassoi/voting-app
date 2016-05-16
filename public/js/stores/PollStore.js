@@ -6,10 +6,10 @@ class PollStore extends EventEmitter {
     super()
     this.polls = [
       {
-        date: 1430784000,
+        date: 143078000,
         user:{
           username: 'someguy',
-          ip: '192.168.1.1'
+          ip: '192.068.1.1'
         },
         data:{
           title: 'chart 0 title',
@@ -27,6 +27,18 @@ class PollStore extends EventEmitter {
           title: 'chart 1 title',
           options: ['option11', 'option12', 'option 13'],
           results: [55, 1000, 3]
+        }
+      },
+      {
+        date: 1430784001,
+        user:{
+          username: 'asfdfdsa',
+          ip: '192.168.0.1'
+        },
+        data:{
+          title: 'chart 2 title',
+          options: ['option1', 'option', 'option 3'],
+          results: [55, 51, 55]
         }
       }
     ]
