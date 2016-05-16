@@ -6,11 +6,29 @@ class PollStore extends EventEmitter {
     super()
     this.polls = [
       {
-        id: 123,
-        title: 'Poll',
-        options: [],
-        results: []
+        date: 1430784000,
+        user:{
+          username: 'someguy',
+          ip: '192.168.1.1'
+        },
+        data:{
+          title: 'chart 0 title',
+          options: ['option1', 'option2', 'option 3'],
+          results: [0, 1, 3]
+        }
       },
+      {
+        date: 1430784000,
+        user:{
+          username: 'rvalmassoi',
+          ip: '192.168.1.1'
+        },
+        data:{
+          title: 'chart 1 title',
+          options: ['option11', 'option12', 'option 13'],
+          results: [55, 1000, 3]
+        }
+      }
     ]
   }
   createPoll() {
@@ -21,7 +39,7 @@ class PollStore extends EventEmitter {
       console.log(json)
       const { title, options, results } = json.data
       this.polls.push({
-        id,
+        id,//TODO CHANGE TO DATE and OTHER OPTIONS
         title,
         options,
         results
@@ -31,10 +49,7 @@ class PollStore extends EventEmitter {
 
   }
   getAll() {
-    if (this.polls[1])//HACK testing
-      return this.polls[1]
-    else
-      return this.polls[0]
+      return this.polls
   }
 
 

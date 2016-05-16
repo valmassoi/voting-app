@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router'
-
 import Chart from 'chart.js'
 import { Bar } from 'react-chartjs'
 import PollStore from '../stores/PollStore'
@@ -24,7 +23,7 @@ export default class Poll extends React.Component {
     })
   }
 
-  render(){
+  render() {
     let pollname = this.state.poll.title
     let chartData = {
         labels: this.state.poll.options,
@@ -38,7 +37,6 @@ export default class Poll extends React.Component {
             data: this.state.poll.results
         }]
     }
-
     let chartOptions = {
         scales: {
             yAxes: [{
