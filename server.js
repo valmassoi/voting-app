@@ -10,7 +10,7 @@ const BadLanguageFilter = require('bad-language-filter')
 
 const app = express()
 
-const dbUrl = process.env.MONGODB_URI || 'mongodb://localhost:27017/data'
+const dbUrl = process.env.MONGODB_URI || 'mongodb://localhost:27018/data'
 
 app.use(express.static(__dirname+'/public/'))
 app.use(cors())
@@ -23,34 +23,19 @@ function langFilter(words){
 }
 
 function fetchpolls (sortby, callback){
-  let fakeData = {
-    date: 1430784000,
-    user:{
-      username: 'jsonguy',
-      ip: '192.168.1.1'
-    },
-    data:{
-      title: 'new title',
-      options: ['option1', 'option2', 'option 3'],
-      results: [0, 1, 3]
-    }
-  }
-
-  /*mongo.connect(sortby, (err, db) => {
+  mongo.connect(dbUrl, (err, db) => {
     if (err) throw err
     let polls = db.collection('polls')
-    polls.toArray((err, data) => {
+    let data = polls.find().toArray((err, all) => {
       if (err) throw err
-      console.log("data:" + data)
-      callback(data)
+      callback(all)
       db.close()
     })
-  })*/
-  callback(fakeData)
+  })
 }
 
 function postPolls (title, username, ip, options){
-  let data = {
+  let poll = {
     date: Date.now(),
     user:{
       username: username,
@@ -62,7 +47,16 @@ function postPolls (title, username, ip, options){
       results: options.map( () => 0 )//init [0, 0, 0]
     }
   }
-  console.log(data)
+  //TODO add to mongo
+  mongo.connect(dbUrl, (err, db) => {
+   if (err) throw err
+   let polls = db.collection('polls')
+   polls.insert(poll, (err, data) => {
+      if (err) throw err
+      console.log(JSON.stringify(poll))
+      db.close()
+    })
+  })
 }
 
 

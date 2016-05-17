@@ -69,7 +69,7 @@ export default class Home extends React.Component {
         <div class="row">
           <div class="col-md-1" />
           <div class="col-md-10">
-          {this.state.polls ? this.state.polls.map( (polls, i) => {
+          {this.state.polls.length>0 ? this.state.polls.map( (polls, i) => {
                return (
                  <div key={i} class="polls">
                    <h1 key={polls.data.title+i}><a href={"/poll/"+polls.data.title}>{polls.data.title}</a></h1>
@@ -78,7 +78,7 @@ export default class Home extends React.Component {
                  </div>
                )
              })
-           : <p>No poll data</p>}
+           : <h1>No poll data</h1>}
            </div>
            <div class="col-md-1" />
         </div>

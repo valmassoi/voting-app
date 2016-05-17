@@ -38,10 +38,10 @@ export default class Create extends React.Component {
   submit(){
     let { title, options } = this.state
     console.log(title, options);
-    //TODO CHANGE URL
+    //TODO CHANGE URL, move to flux actions?
     $.ajax({
       type: "POST",
-      url: "/api/polls/POST",
+      url: "http://192.168.1.48:8081/api/polls/POST",
       data: { title, options },
       success: function(){ this.alertUser() }.bind(this),
       dataType: "json"

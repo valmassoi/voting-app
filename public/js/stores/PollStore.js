@@ -6,27 +6,14 @@ import dispatcher from '../dispatcher'
 class PollStore extends EventEmitter {
   constructor() {
     super()
-    this.polls = [
-      {
-        date: 143078000,
-        user:{
-          username: 'someguy',
-          ip: '192.068.1.1'
-        },
-        data:{
-          title: 'chart 0 title',
-          options: ['option1', 'option2', 'option 3'],
-          results: [0, 1, 3]
-        }
-      }
-    ]
+    this.polls = [ ]
   }
   createPoll() {
     this.emit("change")
   }
 
   loadPolls(json) {
-    this.polls.push(json)
+    this.polls = json
     this.emit("change")
   }
 
