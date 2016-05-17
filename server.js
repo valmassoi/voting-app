@@ -22,7 +22,7 @@ function langFilter(words){
   return clean
 }
 
-function fetchpolls (sortby, callback){
+function fetchpolls(sortby, callback) {
   mongo.connect(dbUrl, (err, db) => {
     if (err) throw err
     let polls = db.collection('polls')
@@ -34,7 +34,7 @@ function fetchpolls (sortby, callback){
   })
 }
 
-function postPolls (title, username, ip, options){
+function postPolls(title, username, ip, options) {
   let poll = {
     date: Date.now(),
     user:{
@@ -44,10 +44,10 @@ function postPolls (title, username, ip, options){
     data:{
       title: title,
       options: options,
-      results: options.map( () => 0 )//init [0, 0, 0]
+      results: options.map( () => 0 )
     }
   }
-  //TODO add to mongo
+
   mongo.connect(dbUrl, (err, db) => {
    if (err) throw err
    let polls = db.collection('polls')
