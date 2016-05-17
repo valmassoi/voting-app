@@ -21,6 +21,7 @@ ReactDOM.render(
   <Router history={history}>
     <Route path="/" component={Layout}>
       <IndexRoute component={Home}></IndexRoute>
+      <Route path="/sort/:sortby" component={Home}></Route>
       <Route path="create" component={Create}></Route>
       <Route path="signup" component={Signup}></Route>
       <Route path="password" component={Password}></Route>

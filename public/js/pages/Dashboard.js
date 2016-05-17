@@ -3,6 +3,24 @@ import { Link } from "react-router"
 
 export default class Dashboard extends React.Component {
   render(){
+    let fakeUser = "rvalmassoi"
+    let fakeData = [
+      {
+        title: "iPhone vs Android",
+        count: 100,
+        date: "May 4, 2016"
+      },
+      {
+        title: "someother",
+        count: 20,
+        date: Date.now()
+      },
+      {
+        title: "iPhone vs Android",
+        count: 100,
+        date: "May 4, 2016"
+      }
+    ]
     return(
       <div>
         <div class="title">
@@ -18,18 +36,23 @@ export default class Dashboard extends React.Component {
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>1</td>
-      <td><Link to="poll">iPhone vs Android</Link></td>
-      <td>100</td>
-      <td>May 4, 2016</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>Column content</td>
-      <td>Column content</td>
-      <td>Column content</td>
-    </tr>
+  {fakeData.length>0 ? fakeData.map( (data, i) => {
+       return (
+        <tr>
+          <td>{i+1}</td>
+          <td><Link to={"/u/"+fakeUser+"/"+fakeData[i].title}>{fakeData[i].title}</Link></td>
+          <td>{fakeData[i].count}</td>
+          <td>{fakeData[i].date}</td>
+        </tr>
+      )
+    })
+    : <tr>
+        <td>{0}</td>
+        <td>No Polls</td>
+        <td>0</td>
+        <td>--</td>
+      </tr>
+  }
   </tbody>
 </table>
       </div>

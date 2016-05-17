@@ -53,9 +53,9 @@ export default class Nav extends React.Component {
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Sort by <span class="caret"></span></a>
                 <ul class="dropdown-menu" role="menu">
-                  <li><a href="#">Recent</a></li>
-                  <li><a href="#">Popular</a></li>
-                  <li><a href="#">Random</a></li>
+                  <li><Link to="/sort/recent" onClick={this.toggleCollapse.bind(this)}>Recent</Link></li>
+                  <li><Link to="/sort/popular" onClick={this.toggleCollapse.bind(this)}>Popular</Link></li>
+                  <li><Link to="/sort/random" onClick={this.toggleCollapse.bind(this)}>Random</Link></li>
                 </ul>
               </li>
             </ul>
