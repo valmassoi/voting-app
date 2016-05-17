@@ -73,7 +73,7 @@ export default class Home extends React.Component {
           {this.state.polls.length>0 ? this.state.polls.map( (polls, i) => {
                return (
                 <div key={i} class="polls">
-                  <button type="reset" class="btn btn-default vote-now">Vote</button>
+                  <Link to={"/u/username/"+ polls.data.title} type="reset" class="btn btn-default vote-now">Vote</Link>
                   <h1 key={polls.data.title+i}>  <Link to={"/u/username/"+ polls.data.title}>{polls.data.title}</Link></h1>
                   <h6 key={polls.user.username+i}><strong>By {polls.user.username}</strong></h6>
                   <Bar key={polls.date+i} data={this.chartData(i)} options={chartOptions} />

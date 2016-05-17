@@ -10,7 +10,9 @@ export default class Poll extends React.Component {
     super(props);
     this.state = {
         poll: PollStore.getAll(),
-        loaded: false
+        loaded: false,
+        voted: false,
+        pollname: "pollname"
       }
   }
   componentWillMount() {
@@ -23,14 +25,20 @@ export default class Poll extends React.Component {
     })
   }
   componentDidMount() {
-    let pollname = this.props.params.pollname
-    let username = this.props.params.username
+    let pollname = this.props.params.pollname,
+        username = this.props.params.username
+    this.setState({ pollname })
     console.log(username);
     console.log(pollname);
   }
+  reset(){
+
+  }
+  submit(){
+
+  }
 
   render() {
-    let pollname = this.state.poll.title
     let chartData = {
         labels: this.state.poll.options,
         datasets: [{
@@ -56,13 +64,48 @@ export default class Poll extends React.Component {
           onClick: () => console.log("click")
         }
     }
+    let formBtns = {
+      float: 'right !important',
+      marginRight: '16px'
+    }
+
 
     return(
       <div>
         <div class="title">
-          <h1><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> {pollname}</h1>
+          <h1><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> {this.state.pollname}</h1>
         </div>
-        {(this.state.loaded)?<Bar data={chartData} options={chartOptions} />:<div>Could not load poll</div>}
+        {(this.state.loaded)?<div><Bar data={chartData} options={chartOptions} /></div>:<div>Could not load poll</div>}
+        {(this.state.voted)?<p>change vote?</p>:
+        <div class="form-container centered">
+          <form class="form-horizontal">
+            <fieldset>
+              <legend>Vote on {this.state.pollname}</legend>
+              <div class="form-group">
+                <label class="col-lg-2 control-label">Options</label>
+                <div class="col-lg-10">
+                  <div class="radio">
+                    <label>
+                      <input name="optionsRadios" id="optionsRadios1" value="option1" type="radio" />
+                      Option one is this
+                    </label>
+                  </div>
+                  <div class="radio">
+                    <label>
+                      <input name="optionsRadios" id="optionsRadios2" value="option2" type="radio" />
+                      Option two can be something else
+                    </label>
+                  </div>
+                </div>
+              </div>
+            <div class="form-group">
+              <div style={formBtns}>
+                <button type="submit" style={{marginLeft: '10px'}} class="btn btn-primary" onClick={this.submit.bind(this)}>Submit</button>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>}
       </div>
     )
   }
