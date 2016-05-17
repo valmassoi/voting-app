@@ -6,6 +6,7 @@ const http = require('http')
 const mongo = require('mongodb').MongoClient
 const cors = require('cors')
 const bodyParser = require('body-parser')
+const BadLanguageFilter = require('bad-language-filter')
 
 const app = express()
 
@@ -15,11 +16,17 @@ app.use(express.static(__dirname+'/public/'))
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
 
+function langFilter(words){
+  const filter = new BadLanguageFilter()
+  let clean = filter.replaceWords(words + " ", "naughty-word ")
+  return clean
+}
+
 function fetchpolls (sortby, callback){
   let fakeData = {
     date: 1430784000,
     user:{
-      username: 'rvalmassoi',
+      username: 'jsonguy',
       ip: '192.168.1.1'
     },
     data:{
@@ -42,6 +49,23 @@ function fetchpolls (sortby, callback){
   callback(fakeData)
 }
 
+function postPolls (title, username, ip, options){
+  let data = {
+    date: Date.now(),
+    user:{
+      username: username,
+      ip: ip
+    },
+    data:{
+      title: title,
+      options: options,
+      results: options.map( () => 0 )//init [0, 0, 0]
+    }
+  }
+  console.log(data)
+}
+
+
 app.get('/api/polls', (req, res) => {
   // let params = req.params.param
   fetchpolls("date", (data) => {
@@ -51,7 +75,7 @@ app.get('/api/polls', (req, res) => {
   })
 })
 app.post('/api/polls/POST', (req, res) => {
-  console.log(req.body);
+  postPolls(langFilter(req.body.title), "username", req.ip, req.body.options)
   res.writeHead(200, { 'Content-Type':  'application/json' })
   res.end('{"success" : "POST success", "status" : 200}');
 })

@@ -2,6 +2,7 @@ import React from "react"
 import { Link } from "react-router"
 import Chart from 'chart.js'
 import { Bar } from 'react-chartjs'
+import * as PollAction from '../actions/PollAction'
 import PollStore from '../stores/PollStore'
 
 export default class Home extends React.Component {
@@ -13,8 +14,9 @@ export default class Home extends React.Component {
         loaded: false
       }
   }
+
   componentWillMount() {
-    console.log("mount");
+    PollAction.loadPolls()
     PollStore.on("change", () => {
       this.setState({
         polls: PollStore.getAll(),
@@ -42,7 +44,6 @@ export default class Home extends React.Component {
   }
 
   render() {
-
 
     let chartOptions = {
         scales: {

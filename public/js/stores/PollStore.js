@@ -1,5 +1,7 @@
-import { EventEmitter } from "events"
+import { EventEmitter } from 'events'
 import $ from 'jquery'
+
+import dispatcher from '../dispatcher'
 
 class PollStore extends EventEmitter {
   constructor() {
@@ -16,60 +18,34 @@ class PollStore extends EventEmitter {
           options: ['option1', 'option2', 'option 3'],
           results: [0, 1, 3]
         }
-      },
-      {
-        date: 1430784000,
-        user:{
-          username: 'rvalmassoi',
-          ip: '192.168.1.1'
-        },
-        data:{
-          title: 'chart 1 title',
-          options: ['option11', 'option12', 'option 13'],
-          results: [55, 1000, 3]
-        }
-      },
-      {
-        date: 1430784001,
-        user:{
-          username: 'asfdfdsa',
-          ip: '192.168.0.1'
-        },
-        data:{
-          title: 'chart 2 title',
-          options: ['option1', 'option', 'option 3'],
-          results: [55, 51, 55]
-        }
       }
     ]
   }
   createPoll() {
-    const id = Date.now()//HACK
-    const url = 'http://192.168.1.48:8081/api/polls' //TODO change to unquie poll AND move to PollStore
-    console.log("create poll");
-    this.serverRequest = $.getJSON(url, (json) => {
-      console.log(json)
-      const { title, options, results } = json.data
-      this.polls.push({
-        id,//TODO CHANGE TO DATE and OTHER OPTIONS
-        title,
-        options,
-        results
-      })
-      this.emit("change")
-    })
-
+    this.emit("change")
   }
+
+  loadPolls(json) {
+    this.polls.push(json)
+    this.emit("change")
+  }
+
   getAll() {
-      return this.polls
+    return this.polls
   }
 
-
-  componentDidMount() {
-
+  handleActions(action) {
+    switch(action.type) {
+      case "CREATE_POLL": {
+        this.createPoll(action.data)
+      }
+      case "RECEIVE_POLLS": {
+        this.loadPolls(action.json)
+      }
+    }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     console.log("unmount poll");
     this.serverRequest.abort()//TODO ???
   }
@@ -77,5 +53,7 @@ class PollStore extends EventEmitter {
 }
 
 const pollStore = new PollStore
-window.pollStore = pollStore//TODO for testing
+dispatcher.register(pollStore.handleActions.bind(pollStore))
+// window.pollStore = pollStore//TODO for testing
+window.dispatcher = dispatcher//TODO for testing
 export default pollStore

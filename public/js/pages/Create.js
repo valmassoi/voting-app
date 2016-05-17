@@ -1,8 +1,8 @@
-import React from "react"
-import { Link } from "react-router"
-import $ from "jquery"
-// const BadLanguageFilter = require('bad-language-filter')
+import React from 'react'
+import { Link } from 'react-router'
+import $ from 'jquery'
 
+//TODO check for Login
 export default class Create extends React.Component {
   constructor(props) {
    super(props);
@@ -12,10 +12,7 @@ export default class Create extends React.Component {
      options: ["iPhone", "Android"]
    }
  }
-  langFilter(words){
-    // const filter = new BadLanguageFilter()
-    // let clean = console.log(filter.replaceWords(words + " ", "naughty-word "))
-  }
+
   addOption() {
     let options = this.state.options
     if (options.length>19)
@@ -57,7 +54,7 @@ export default class Create extends React.Component {
     }
   }
   handleTitleChange(event) {
-   this.setState({title: event.target.value.substr(0, 20)});
+   this.setState({title: event.target.value.substr(0, 30)});
   }
   handleOptionChange(event) {
     let id = event.target.id
