@@ -26,7 +26,7 @@ ReactDOM.render(
       <Route path="password" component={Password}></Route>
       <Route path="login" component={Login}></Route>
       <Route path="dashboard" component={Dashboard}></Route>
-      <Route path="poll" component={Poll}></Route>
+      <Route path="u/:username/:pollname" component={Poll}></Route>
     </Route>
   </Router>,
 app)

@@ -22,6 +22,12 @@ export default class Poll extends React.Component {
       })
     })
   }
+  componentDidMount() {
+    let pollname = this.props.params.pollname
+    let username = this.props.params.username
+    console.log(username);
+    console.log(pollname);
+  }
 
   render() {
     let pollname = this.state.poll.title
