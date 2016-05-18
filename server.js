@@ -35,7 +35,7 @@ function fetchpolls(sortby, callback) {
   })
 }
 
-function postPolls(title, username, ip, options) {
+function postPolls(title, username, ip, options, callback) {
   let poll = {
     date: Date.now(),
     user:{
@@ -54,7 +54,8 @@ function postPolls(title, username, ip, options) {
    let polls = db.collection('polls')
    polls.insert(poll, (err, data) => {
       if (err) throw err
-      console.log(JSON.stringify(poll))
+      let id=JSON.stringify(poll._id)
+      callback(id)
       db.close()
     })
   })
@@ -78,9 +79,10 @@ app.get('/api/polls', (req, res) => {
   })
 })
 app.post('/api/polls/POST', (req, res) => {
-  postPolls(langFilter(req.body.title), "username", req.ip, req.body.options)
+  postPolls(langFilter(req.body.title), "username", req.ip, req.body.options, (id) => {
+    res.end('{"success" : "POST success", "id" : '+id+', "status" : 200}');
+  })
   res.writeHead(200, { 'Content-Type':  'application/json' })
-  res.end('{"success" : "POST success", "status" : 200}');
 })
 app.post('/api/polls/DELETE', (req, res) => {
   deletePoll(req.body.id)

@@ -11,17 +11,23 @@ export default class Create extends React.Component {
 
     this.state = {
       title: "",
-      options: ["iPhone", "Android"]
+      options: ["iPhone", "Android"],
+      id: 0
     }
   }
 
   componentWillMount() {
-    PollStore.on("change", () => {
-
-    })
+    PollStore.on("change", this.setId.bind(this))
   }
+
   componentWillUnmount() {
     PollStore.removeAllListeners("change")
+  }
+
+  setId() {
+    this.setState({
+      id: PollStore.getId()
+    })
   }
 
   addOption() {
@@ -80,7 +86,7 @@ export default class Create extends React.Component {
       <div class="alerts">
         <div id="success-alert" class="alert alert-dismissible alert-success hidden" style={{width: '400px'}}>
           <button type="button" class="close" data-dismiss="alert">&times;</button>
-          <strong>Success!</strong> Your poll can be viewed at <Link to={"/u/username/"+ this.state.title}>TestPollurl</Link>
+          <strong>Success!</strong> Your poll can be viewed at <Link to={"/u/username/"+ this.state.id}>TestPollurl</Link>
         </div>
       </div>
       <div class="form-container centered">

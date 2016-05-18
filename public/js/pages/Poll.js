@@ -10,7 +10,7 @@ export default class Poll extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        poll: PollStore.getAll(),// only need 1 with id
+        poll: [ ],// only need 1 with id
         loaded: false,
         voted: false,
         pollname: "pollname",

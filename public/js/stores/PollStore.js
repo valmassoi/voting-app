@@ -6,9 +6,14 @@ import dispatcher from '../dispatcher'
 class PollStore extends EventEmitter {
   constructor() {
     super()
+    this.id = 0
     this.polls = [ ]
   }
 
+  getId() {
+    return this.id
+  }
+  
   getAll() {
     return this.polls
   }
@@ -16,6 +21,8 @@ class PollStore extends EventEmitter {
   handleActions(action) {
     switch(action.type) {
       case "CREATE_POLL": {//TODO MOVE FROM create.js
+        //GET ID TO PASS BACK TO CREATE POLL for url
+        this.id = action.id
         this.emit("change")
       }
       case "RECEIVE_POLLS": {
