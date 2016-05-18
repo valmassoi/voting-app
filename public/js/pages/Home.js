@@ -4,7 +4,7 @@ import Chart from 'chart.js'
 import { Bar } from 'react-chartjs'
 import * as PollAction from '../actions/PollAction'
 import PollStore from '../stores/PollStore'
-
+//TODO pageination
 export default class Home extends React.Component {
 
   constructor(props) {

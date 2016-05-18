@@ -13,18 +13,17 @@ export default class Poll extends React.Component {
         poll: {
           date: 0,
           user:{
-            username: "username",
-            ip: "ip"
+            username: "",
+            ip: 0
           },
           data:{
-            title: "title",
-            options: ["options"],
-            results: [0]
+            title: "",
+            options: ["", ""],
+            results: [0, 0]
           }
         },
         loaded: false,
         voted: false,
-        pollname: "pollname",//DELTE
         pollid: 0
       }
   }
@@ -36,7 +35,6 @@ export default class Poll extends React.Component {
       pollid
     })
     PollStore.on("change", () => {
-      console.log(PollStore.getPoll(this.state.pollid));
       this.setState({
         poll: PollStore.getPoll(this.state.pollid),
         loaded: true

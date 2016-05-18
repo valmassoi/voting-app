@@ -15,7 +15,10 @@ class PollStore extends EventEmitter {
   }
 
   getPoll(id) {//BETTER TO SEARCH DB???
-    return this.polls[0]
+    function findPoll(polls){
+      return polls._id===id
+    }
+    return this.polls.find(findPoll)
   }
 
   getAll() {
