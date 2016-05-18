@@ -13,7 +13,11 @@ class PollStore extends EventEmitter {
   getId() {
     return this.id
   }
-  
+
+  getPoll(id) {//BETTER TO SEARCH DB???
+    return this.polls[0]
+  }
+
   getAll() {
     return this.polls
   }

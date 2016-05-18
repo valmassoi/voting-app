@@ -1,9 +1,9 @@
 import dispatcher from '../dispatcher'
 import $ from 'jquery'
-const local = 'http://192.168.1.48:8081'
+const local = 'http://192.168.1.48:8081'//TODO CHANGE URL
 
 export function createPoll(title, options) {
-  const url = local+'/api/polls/POST'//TODO CHANGE URL
+  const url = local+'/api/polls/POST'
   $.ajax({
     type: "POST",
     url: url,
@@ -15,7 +15,7 @@ export function createPoll(title, options) {
 
 export function loadPolls(sortby) {
   // dispatcher.dispatch({type: "FETCH_POLLS"})TODO DELETE? ->for loader
-  const url = local+'/api/polls' //TODO change url
+  const url = local+'/api/polls'
   $.getJSON(url, (json) => {
     dispatcher.dispatch({type: "RECEIVE_POLLS", json})
   })
@@ -28,7 +28,7 @@ export function vote(id, option) {//TODO CHECK IP
 
 
 export function deletePoll(id) {
-  const url = local+'/api/polls/DELETE'//TODO CHANGE URL
+  const url = local+'/api/polls/DELETE'
   $.ajax({
     type: "POST",
     url: url,
