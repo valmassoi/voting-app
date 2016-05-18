@@ -8,14 +8,6 @@ class PollStore extends EventEmitter {
     super()
     this.polls = [ ]
   }
-  createPoll() {
-    this.emit("change")
-  }
-
-  loadPolls(json) {
-    this.polls = json
-    this.emit("change")
-  }
 
   getAll() {
     return this.polls
@@ -23,11 +15,21 @@ class PollStore extends EventEmitter {
 
   handleActions(action) {
     switch(action.type) {
-      case "CREATE_POLL": {
-        this.createPoll(action.data)
+      case "CREATE_POLL": {//TODO MOVE FROM create.js
+        this.emit("change")
       }
       case "RECEIVE_POLLS": {
-        this.loadPolls(action.json)
+        this.polls = action.json
+        this.emit("change")
+      }
+      case "VOTE": {
+
+      }
+      case "DELETE_POLL": {
+
+      }
+      case "EDIT_POLL": {
+
       }
     }
   }

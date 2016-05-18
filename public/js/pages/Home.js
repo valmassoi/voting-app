@@ -17,11 +17,17 @@ export default class Home extends React.Component {
 
   componentWillMount() {
     PollAction.loadPolls()
-    PollStore.on("change", () => {
-      this.setState({
-        polls: PollStore.getAll(),
-        loaded: true
-      })
+    PollStore.on("change", this.getPolls.bind(this))
+  }
+
+  componentWillUnmount() {
+    PollStore.removeAllListeners("change")
+  }
+
+  getPolls() {
+    this.setState({
+      polls: PollStore.getAll(),
+      loaded: true
     })
   }
 
@@ -70,13 +76,13 @@ export default class Home extends React.Component {
         <div class="row">
           <div class="col-md-1" />
           <div class="col-md-10">
-          {this.state.polls.length>0 ? this.state.polls.map( (polls, i) => {
+          {this.state.polls.length>0 ? this.state.polls.map( (poll, i) => {
                return (
                 <div key={i} class="polls">
-                  <Link to={"/u/username/"+ polls.data.title} type="reset" class="btn btn-default vote-now">Vote</Link>
-                  <h1 key={polls.data.title+i}>  <Link to={"/u/username/"+ polls.data.title}>{polls.data.title}</Link></h1>
-                  <h6 key={polls.user.username+i}><strong>By {polls.user.username}</strong></h6>
-                  <Bar key={polls.date+i} data={this.chartData(i)} options={chartOptions} />
+                  <Link to={"/u/"+poll.user.username+"/"+poll._id} class="btn btn-default vote-now">Vote</Link>
+                  <h1 key={poll._id+i}>  <Link to={"/u/"+poll.user.username+"/"+ poll._id}>{poll.data.title}</Link></h1>
+                  <h6 key={poll.user.username+i}><strong>By {poll.user.username}</strong></h6>
+                  <Bar key={poll.date+i} data={this.chartData(i)} options={chartOptions} />
                 </div>
                )
              })

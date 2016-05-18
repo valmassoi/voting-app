@@ -1,8 +1,13 @@
 import React from "react"
 import { Link } from "react-router"
-
+//TODO DELETE/EDIT
 export default class Dashboard extends React.Component {
-  render(){
+
+  delete() {
+
+  }
+
+  render() {
     let fakeUser = "rvalmassoi"
     let fakeData = [
       {
@@ -29,10 +34,11 @@ export default class Dashboard extends React.Component {
         <table class="table table-striped table-hover ">
   <thead>
     <tr>
-      <th>#</th>
+      <th> </th>
       <th>Poll Name</th>
-      <th>Vote Count</th>
+      <th>Votes</th>
       <th>Date Added</th>
+      <th>Settings</th>
     </tr>
   </thead>
   <tbody>
@@ -43,6 +49,10 @@ export default class Dashboard extends React.Component {
           <td><Link to={"/u/"+fakeUser+"/"+fakeData[i].title}>{fakeData[i].title}</Link></td>
           <td>{fakeData[i].count}</td>
           <td>{fakeData[i].date}</td>
+          <td>
+            <Link to={"/u/username/"+fakeData[i].title+'?edit'} type="reset" class="btn btn-sm btn-default" style={{marginRight: '5px'}}>Edit</Link>
+            <button class="btn btn-sm btn-danger" onClick={this.delete.bind(this)}>Delete</button>
+          </td>
         </tr>
       )
     })

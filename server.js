@@ -7,6 +7,7 @@ const mongo = require('mongodb').MongoClient
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const BadLanguageFilter = require('bad-language-filter')
+const ObjectId = require('mongodb').ObjectID;
 
 const app = express()
 
@@ -59,6 +60,14 @@ function postPolls(title, username, ip, options) {
   })
 }
 
+function deletePoll(id) {
+  mongo.connect(dbUrl, (err, db) => {
+   if (err) throw err
+   let polls = db.collection('polls')
+   polls.remove( {"_id": ObjectId(id)});
+   db.close()
+ })
+}
 
 app.get('/api/polls', (req, res) => {
   // let params = req.params.param
@@ -70,6 +79,11 @@ app.get('/api/polls', (req, res) => {
 })
 app.post('/api/polls/POST', (req, res) => {
   postPolls(langFilter(req.body.title), "username", req.ip, req.body.options)
+  res.writeHead(200, { 'Content-Type':  'application/json' })
+  res.end('{"success" : "POST success", "status" : 200}');
+})
+app.post('/api/polls/DELETE', (req, res) => {
+  deletePoll(req.body.id)
   res.writeHead(200, { 'Content-Type':  'application/json' })
   res.end('{"success" : "POST success", "status" : 200}');
 })

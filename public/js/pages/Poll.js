@@ -2,17 +2,19 @@ import React from 'react'
 import { Link } from 'react-router'
 import Chart from 'chart.js'
 import { Bar } from 'react-chartjs'
+import * as PollAction from '../actions/PollAction'
 import PollStore from '../stores/PollStore'
 
-//TODO VOTE SECTION, SHARE SECTION
+//TODO SHARE button, delete if username
 export default class Poll extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        poll: PollStore.getAll(),
+        poll: PollStore.getAll(),// only need 1 with id
         loaded: false,
         voted: false,
-        pollname: "pollname"
+        pollname: "pollname",
+        pollid: 0
       }
   }
   componentWillMount() {
@@ -24,18 +26,23 @@ export default class Poll extends React.Component {
       })
     })
   }
-  componentDidMount() {
-    let pollname = this.props.params.pollname,
+
+  componentWillUnmount() {
+    PollStore.removeAllListeners("change")
+  }
+
+  componentDidMount() {//TODO move to will?
+    let pollid = this.props.params.pollid,
         username = this.props.params.username
-    this.setState({ pollname })
-    console.log(username);
-    console.log(pollname);
+    this.setState({ pollid })
   }
-  reset(){
 
-  }
   submit(){
+    PollAction.vote("some option")//TODO pass opt
+  }
 
+  delete(){
+    PollAction.deletePoll(this.state.pollid)//TODO give id
   }
 
   render() {
@@ -68,13 +75,14 @@ export default class Poll extends React.Component {
       float: 'right !important',
       marginRight: '16px'
     }
-
+    let tempOpt = ["op1", "op2"]
 
     return(
       <div>
         <div class="title">
           <h1><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> {this.state.pollname}</h1>
         </div>
+        <button style={{marginLeft: '10px'}} class="btn btn-danger" onClick={this.delete.bind(this)}>Delete</button>
         {(this.state.loaded)?<div><Bar data={chartData} options={chartOptions} /></div>:<div>Could not load poll</div>}
         {(this.state.voted)?<p>change vote?</p>:
         <div class="form-container centered">
@@ -84,18 +92,16 @@ export default class Poll extends React.Component {
               <div class="form-group">
                 <label class="col-lg-2 control-label">Options</label>
                 <div class="col-lg-10">
-                  <div class="radio">
-                    <label>
-                      <input name="optionsRadios" id="optionsRadios1" value="option1" type="radio" />
-                      Option one is this
-                    </label>
-                  </div>
-                  <div class="radio">
-                    <label>
-                      <input name="optionsRadios" id="optionsRadios2" value="option2" type="radio" />
-                      Option two can be something else
-                    </label>
-                  </div>
+                {tempOpt.map((option, i) => {
+                  return(
+                    <div key={option+i+"radio"} class="radio">
+                      <label key={option+i+"label"}>
+                        <input key={option+i+"input"} name="option" id={option+i+"input"} value={i} type="radio" />
+                        {option}
+                      </label>
+                    </div>
+                  )}
+                )}
                 </div>
               </div>
             <div class="form-group">

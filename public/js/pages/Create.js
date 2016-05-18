@@ -1,17 +1,28 @@
 import React from 'react'
 import { Link } from 'react-router'
 import $ from 'jquery'
+import * as PollAction from '../actions/PollAction'
+import PollStore from '../stores/PollStore'
 
-//TODO check for Login
+//TODO check for Login, MOOOVEE TO ACTIONS
 export default class Create extends React.Component {
   constructor(props) {
    super(props);
 
-   this.state = {
-     title: "",
-     options: ["iPhone", "Android"]
-   }
- }
+    this.state = {
+      title: "",
+      options: ["iPhone", "Android"]
+    }
+  }
+
+  componentWillMount() {
+    PollStore.on("change", () => {
+
+    })
+  }
+  componentWillUnmount() {
+    PollStore.removeAllListeners("change")
+  }
 
   addOption() {
     let options = this.state.options
@@ -22,7 +33,8 @@ export default class Create extends React.Component {
       this.setState({ options: options })
     }
   }
-  removeOption(){
+
+  removeOption() {
     let options = this.state.options
     if (options.length<3)
       console.log("keep 2")
@@ -31,34 +43,25 @@ export default class Create extends React.Component {
       this.setState({ options: options })
     }
   }
-  reset(){
+
+  reset() {
     let options = ["iPhone", "Android"]
     this.setState({ options: options })
   }
-  submit(){
+
+  submit() {//TODO move to flux actions?
     let { title, options } = this.state
-    console.log(title, options);
-    //TODO CHANGE URL, move to flux actions?
-    $.ajax({
-      type: "POST",
-      url: "http://192.168.1.48:8081/api/polls/POST",
-      data: { title, options },
-      success: function(){ this.alertUser() }.bind(this),
-      dataType: "json"
-    })
+    PollAction.createPoll(title, options)//TODO MORE DATA, user ect
+    $("#success-alert").removeClass("hidden")//TODO check if true
   }
-  alertUser(){
-    if (true){
-      $("#success-alert").removeClass("hidden")
-    }
-  }
+
   handleTitleChange(event) {
    this.setState({title: event.target.value.substr(0, 30)});
   }
-  handleOptionChange(event) {
-    let id = event.target.id
-    let i = id[id.length -1]
-    let options = this.state.options
+  handleOptionChange(event) {//BUG weird on iPhone auto complete
+    let id = event.target.id,
+        i = id[id.length -1],
+        options = this.state.options
     options[i] = event.target.value
     this.setState({ options });
   }
@@ -77,7 +80,7 @@ export default class Create extends React.Component {
       <div class="alerts">
         <div id="success-alert" class="alert alert-dismissible alert-success hidden" style={{width: '400px'}}>
           <button type="button" class="close" data-dismiss="alert">&times;</button>
-          <strong>Success!</strong> Your poll can be viewed at <Link to="poll">TestPollurl</Link>
+          <strong>Success!</strong> Your poll can be viewed at <Link to={"/u/username/"+ this.state.title}>TestPollurl</Link>
         </div>
       </div>
       <div class="form-container centered">
