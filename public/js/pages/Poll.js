@@ -5,7 +5,7 @@ import { Bar } from 'react-chartjs'
 import * as PollAction from '../actions/PollAction'
 import PollStore from '../stores/PollStore'
 
-//TODO SHARE button, delete if username
+//TODO SHARE button, delete if username, NOT A POLL ERR
 export default class Poll extends React.Component {
   constructor(props) {
     super(props);
@@ -30,7 +30,7 @@ export default class Poll extends React.Component {
   componentWillMount() {
     let pollid = this.props.params.pollid,
         username = this.props.params.username
-    PollAction.loadPolls()
+    PollAction.loadPolls()//TODO get from cache? instead of loading again?
     this.setState({
       pollid
     })

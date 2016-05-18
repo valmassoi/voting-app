@@ -68,7 +68,7 @@ export default class Login extends React.Component {
               <div class="form-group">
                 <div style={formBtns}>
                   <button type="reset" class="btn btn-default">Reset</button>
-                  <button type="submit" style={{marginLeft: '10px'}} class="btn btn-primary" onClick={this.login.bind(this)}>Signin</button>
+                  <button type="button" style={{marginLeft: '10px'}} class="btn btn-primary" onClick={this.login.bind(this)}>Signin</button>
                 </div>
               </div>
             </fieldset>

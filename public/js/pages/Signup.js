@@ -95,7 +95,7 @@ export default class Signup extends React.Component {
               <div class="form-group">
                 <div style={formBtns}>
                   <button type="reset" class="btn btn-default">Reset</button>
-                  <button type="submit" style={{marginLeft: '10px'}} class="btn btn-primary" onClick={this.submit.bind(this)}>Create Account</button>
+                  <button type="button" style={{marginLeft: '10px'}} class="btn btn-primary" onClick={this.submit.bind(this)}>Create Account</button>
                 </div>
               </div>
             </fieldset>
