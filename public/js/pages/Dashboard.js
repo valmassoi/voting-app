@@ -26,8 +26,9 @@ export default class Dashboard extends React.Component {
   }
 
   getPolls() {
+    let polls = PollStore.getAll().sort((x,y)=> x.date < y.date)
     this.setState({
-      polls: PollStore.getAll(),
+      polls,
       loaded: true
     })
   }
@@ -49,17 +50,38 @@ export default class Dashboard extends React.Component {
   nameSorter() {
     let nameSort = ""
     this.state.nameSort=="down" ? nameSort = "up" : nameSort = "down"
-    this.setState({ dateSort:null, nameSort, voteSort: null })
+    let polls = [ ]
+    if (nameSort=="down"){
+      polls = this.state.polls.sort((x,y)=> x.data.title > y.data.title)
+    }
+    else{
+      polls = this.state.polls.sort((x,y)=> x.data.title < y.data.title)
+    }
+    this.setState({ polls, dateSort:null, nameSort, voteSort: null })
   }
   voteSorter() {
     let voteSort = ""
     this.state.voteSort=="down" ? voteSort = "up" : voteSort = "down"
-    this.setState({ dateSort:null, nameSort: null, voteSort })
+    let polls = [ ]
+    if (voteSort=="down"){
+      polls = this.state.polls.sort((x,y)=> x.data.results.reduce((a, b) => +a + +b, 0)<y.data.results.reduce((a, b) => +a + +b, 0))
+    }
+    else{
+      polls = this.state.polls.sort((x,y)=> x.data.results.reduce((a, b) => +a + +b, 0)>y.data.results.reduce((a, b) => +a + +b, 0))
+    }
+    this.setState({ polls, dateSort:null, nameSort: null, voteSort })
   }
   dateSorter() {
     let dateSort = ""
     this.state.dateSort=="down" ? dateSort = "up" : dateSort = "down"
-    this.setState({ dateSort, nameSort: null, voteSort: null })
+    let polls = [ ]
+    if (dateSort=="down"){
+      polls = this.state.polls.sort((x,y)=> x.date < y.date)
+    }
+    else{
+      polls = this.state.polls.sort((x,y)=> x.date > y.date)
+    }
+    this.setState({ polls, dateSort, nameSort: null, voteSort: null })
   }
 
   render() {
