@@ -26,26 +26,28 @@ class PollStore extends EventEmitter {
   }
 
   handleActions(action) {
+    console.log(action.type);
     switch(action.type) {
-      case "CREATE_POLL": {//TODO MOVE FROM create.js
+      case "CREATE_POLL": {//TODO MOVE FROM create.js - done?
         //GET ID TO PASS BACK TO CREATE POLL for url
         this.id = action.id
-        this.emit("change")
+        break
       }
       case "RECEIVE_POLLS": {
         this.polls = action.json
-        this.emit("change")
+        break
       }
       case "VOTE": {
-
+        break
       }
       case "DELETE_POLL": {
-
+        break
       }
       case "EDIT_POLL": {
-
+        break
       }
     }
+    this.emit("change")
   }
 
   componentWillUnmount() {

@@ -60,7 +60,7 @@ export default class Poll extends React.Component {
   }
 
   delete(){
-    PollAction.deletePoll(this.state.pollid)//TODO give id
+    PollAction.deletePoll(this.state.pollid)
   }
 
   render() {
