@@ -1,7 +1,12 @@
 import React from "react"
 import { Link } from "react-router"
+import createHashHistory from 'history/lib/createHashHistory'
 import { generateHash } from "../utilities/hash"
 import owasp from "owasp-password-strength-test"
+import * as UserAction from '../actions/UserAction'
+import UserStore from '../stores/UserStore'
+
+const history = createHashHistory({ queryKey: false })
 
 export default class Signup extends React.Component {
   constructor(props) {
@@ -23,7 +28,7 @@ export default class Signup extends React.Component {
   handlePasswordChange(event) {
     //TODO owasp-password-strength-test
     let password = event.target.value,
-      passwordSuccess = ""
+        passwordSuccess = ""
     // console.log(owasp.test(password));
     if (owasp.test(password).strong)
       passwordSuccess = "has-success"
@@ -33,12 +38,16 @@ export default class Signup extends React.Component {
 
   handlePasswordTwoChange(event) {
     let passwordTwo = event.target.value,
-      passwordTwoSuccess = ""
+        passwordTwoSuccess = ""
     this.setState({ passwordTwo })
     this.passwordSame(this.state.password, passwordTwo)
   }
 
-  submit(){
+  twitterSignin() {
+    window.alert("Feature coming soon")
+  }
+
+  submit() {
     let { email, password, passwordTwo} = this.state
     if (password != passwordTwo){
       this.setState({ error: "has-error" })
@@ -47,8 +56,11 @@ export default class Signup extends React.Component {
     else{
       console.log(email, password, passwordTwo) //TODO CHECK IF ALL IS GOOD
       let hash = generateHash(password)
+      this.setState({ passwordSuccess: "has-success" })
       console.log(hash)
       //TODO push data to mongo
+      //route to dash
+      history.push('/dashboard');
     }
   }
 
@@ -75,7 +87,7 @@ export default class Signup extends React.Component {
         <div class="title">
           <h1> Create a new account </h1>
         </div>
-        <button type="reset" class="btn btn-primary btn-sm" style={twitterBtn}>Signin with Twitter</button>
+        <button onClick={this.twitterSignin.bind(this)} class="btn btn-primary btn-sm" style={twitterBtn}>Signin with Twitter</button>
         <div class="form-container centered">
           <form class="form-horizontal">
             <fieldset>

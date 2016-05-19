@@ -65,7 +65,7 @@ export default class Password extends React.Component {
       <div>
         <div class="title">
           <h1> Account Settings </h1>
-          <Link to="dashboard" class="btn btn-default btn-lg">go to dash</Link>
+          <Link to="dashboard" class="btn btn-default btn-lg">dashboard</Link>
         </div>
         <div class="form-container centered">
           <form class="form-horizontal">

@@ -4,7 +4,7 @@ import Chart from 'chart.js'
 import { Bar } from 'react-chartjs'
 import * as PollAction from '../actions/PollAction'
 import PollStore from '../stores/PollStore'
-
+import _ from 'lodash'
 //TODO SHARE button, delete if username, NOT A POLL ERR
 export default class Poll extends React.Component {
   constructor(props) {
@@ -12,9 +12,10 @@ export default class Poll extends React.Component {
     this.state = {
         poll: {
           date: 0,
-          user:{
-            username: "",
-            ip: 0
+          users:{
+            creator: "",
+            usernames: [ ],
+            ips: [ ]
           },
           data:{
             title: "",
@@ -51,10 +52,19 @@ export default class Poll extends React.Component {
   }
 
   submit(option){
-    let results = this.state.poll.data.results
-    results[this.state.vote]++
-    this.setState({ results })
-    PollAction.vote(this.state.pollid, results)
+    let ip = "::ffff:192.168.1.48",
+        ips = this.state.poll.users.ips,
+        voted = this.state.voted
+    if (_.contains(ips, ip)) {//TODO also check username ~ allow change vote (need to know old)
+      window.alert(`Your ip address: ${ip} has already voted`)
+    }
+    else{
+      let results = this.state.poll.data.results
+      results[this.state.vote]++
+      this.setState({ results, ips: ips.push(ip), voted: true })
+      PollAction.vote(this.state.pollid, results)
+      console.log(this.state.poll.users.ips)
+    }
   }
 
   delete(){

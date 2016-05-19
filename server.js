@@ -35,12 +35,13 @@ function fetchpolls(sortby, callback) {
   })
 }
 
-function postPolls(title, username, ip, options, callback) {
+function postPolls(title, username, options, callback) {
   let poll = {
     date: Date.now(),
-    user:{
-      username: username,
-      ip: ip
+    users:{
+      creator: username,
+      usernames: [ ],
+      ips: [ ]
     },
     data:{
       title: title,
@@ -60,7 +61,7 @@ function postPolls(title, username, ip, options, callback) {
   })
 }
 
-function votePoll(id, vote) {
+function votePoll(id, vote, ip) {
   mongo.connect(dbUrl, (err, db) => {
    if (err) throw err
    let polls = db.collection('polls')
@@ -68,8 +69,12 @@ function votePoll(id, vote) {
      { "_id": ObjectId(id) },
      {
        $set: {
-         "data.results": vote
+         "data.results": vote,
+       },
+       $push: {
+         "user.ips": ip
        }
+
     },
     function(err) {
       if (err) throw err
@@ -96,13 +101,14 @@ app.get('/api/polls', (req, res) => {
   })
 })
 app.post('/api/polls/POST', (req, res) => {
-  postPolls(langFilter(req.body.title), "username", req.ip, req.body.options, (id) => {
+  postPolls(langFilter(req.body.title), "username", req.body.options, (id) => {
     res.end('{"success" : "POST success", "id" : '+id+', "status" : 200}');
   })
   res.writeHead(200, { 'Content-Type':  'application/json' })
 })
 app.post('/api/polls/VOTE', (req, res) => {
-  votePoll(req.body.id, req.body.vote)
+  votePoll(req.body.id, req.body.vote, req.ip)
+  console.log(req.ip);
   res.writeHead(200, { 'Content-Type':  'application/json' })
   res.end('{"success" : "POST success", "status" : 200}');
 })

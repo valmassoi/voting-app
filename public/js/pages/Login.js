@@ -46,7 +46,6 @@ export default class Login extends React.Component {
       <div>
         <div class="title">
           <h1> Login </h1>
-          <Link to="dashboard" class="btn btn-default btn-lg">go to dash</Link>
         </div>
         <button type="reset" class="btn btn-primary btn-sm" style={twitterBtn}>Signin with Twitter</button>
         <div class="form-container centered">

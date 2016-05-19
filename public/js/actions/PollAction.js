@@ -1,6 +1,6 @@
 import dispatcher from '../dispatcher'
 import $ from 'jquery'
-const local = 'http://192.168.1.48:8081'//TODO CHANGE URL
+const local = ''//TODO CHANGE URL
 
 export function createPoll(title, options) {
   const url = local+'/api/polls/POST'

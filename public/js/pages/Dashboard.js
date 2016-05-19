@@ -105,25 +105,21 @@ export default class Dashboard extends React.Component {
                return (
                 <tr key={"tr-"+i}>
                   {( screen.width > 600 ) ? <td key={"td1-"+i}>{i+1}</td> : ""}
-                  <td key={"td2-"+i}><Link to={"/u/"+poll.user.username+"/"+poll._id}>{poll.data.title}</Link></td>
+                  <td key={"td2-"+i}><Link to={"/u/"+poll.users.creator+"/"+poll._id}>{poll.data.title}</Link></td>
                   <td key={"td3-"+i}>{poll.data.results.reduce((a, b) => +a + +b, 0)}</td>
                   <td key={"td4-"+i}>{this.prettyDate(poll.date)}</td>
                   <td key={"td5-"+i}>
-                    <Link to={"/u/"+poll.user.username+"/"+poll._id+'?edit'}  key={"edit-"+i} type="reset" class="btn btn-sm btn-default" style={{marginRight: '5px'}}>Edit</Link>
+                    <Link to={"/u/"+poll.users.creator+"/"+poll._id+'?edit'}  key={"edit-"+i} type="reset" class="btn btn-sm btn-default" style={{marginRight: '5px'}}>Edit</Link>
                     <button id={"delete-"+i} key={"delete-"+i} class="btn btn-sm btn-danger" onClick={this.delete.bind(this)}>Delete</button>
                   </td>
                 </tr>
               )
             })
-            : <tr>
-                {( screen.width > 600 ) ? <td>{0}</td> : ""}
-                <td>No Polls</td>
-                <td>0</td>
-                <td>--</td>
-              </tr>
+            : ""
           }
           </tbody>
         </table>
+          {this.state.polls.length > 0 ? "" : <Link to="create" style={{display: 'block', width: '300'}} class="btn btn-primary btn-lg centered">Create First Poll</Link>}
       </div>
       )
     }
