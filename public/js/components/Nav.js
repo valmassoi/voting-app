@@ -49,7 +49,7 @@ export default class Nav extends React.Component {
           <div class={"navbar-collapse " + navClass} id="bs-example-navbar-collapse-2">
             <ul class="nav navbar-nav">
               <li class={homeClass}><IndexLink to="/" onClick={this.toggleCollapse.bind(this)}>Home</IndexLink></li>
-              <li class={createClass}><Link to="create" onClick={this.toggleCollapse.bind(this)}>New Poll</Link></li>
+              <li class={createClass}><Link to="create" onClick={this.toggleCollapse.bind(this)}>+ New Poll</Link></li>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Sort by <span class="caret"></span></a>
                 <ul class="dropdown-menu" role="menu">

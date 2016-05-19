@@ -9,7 +9,10 @@ export default class Dashboard extends React.Component {
     this.prettyDate=this.prettyDate.bind(this)
     this.state = {
       polls: [ ],
-      loaded: false
+      loaded: false,
+      nameSort: null,
+      voteSort: null,
+      dateSort: "down"
     }
   }
 
@@ -43,9 +46,23 @@ export default class Dashboard extends React.Component {
     let natural = month + " " + day + ", " + year
     return natural
   }
+  nameSorter() {
+    let nameSort = ""
+    this.state.nameSort=="down" ? nameSort = "up" : nameSort = "down"
+    this.setState({ dateSort:null, nameSort, voteSort: null })
+  }
+  voteSorter() {
+    let voteSort = ""
+    this.state.voteSort=="down" ? voteSort = "up" : voteSort = "down"
+    this.setState({ dateSort:null, nameSort: null, voteSort })
+  }
+  dateSorter() {
+    let dateSort = ""
+    this.state.dateSort=="down" ? dateSort = "up" : dateSort = "down"
+    this.setState({ dateSort, nameSort: null, voteSort: null })
+  }
 
   render() {
-
     return(
       <div>
         <div class="title">
@@ -54,10 +71,10 @@ export default class Dashboard extends React.Component {
         <table class="table table-striped table-hover ">
           <thead>
             <tr>
-              <th> </th>
-              <th>Poll Name</th>
-              <th>Votes</th>
-              <th>Date Added</th>
+              {( screen.width > 600 ) ? <th> </th> : ""}
+              <th><button onClick={this.nameSorter.bind(this)}><span class={"glyphicon glyphicon-menu-"+this.state.nameSort} aria-hidden="true"></span> Name</button></th>
+              <th><button onClick={this.voteSorter.bind(this)}><span class={"glyphicon glyphicon-menu-"+this.state.voteSort} aria-hidden="true"></span> Votes</button></th>
+              <th><button onClick={this.dateSorter.bind(this)}><span class={"glyphicon glyphicon-menu-"+this.state.dateSort} aria-hidden="true"></span> Date</button></th>
               <th>Settings</th>
             </tr>
           </thead>
@@ -65,7 +82,7 @@ export default class Dashboard extends React.Component {
           {this.state.loaded ? this.state.polls.map( (poll, i) => {//TODO KEYS
                return (
                 <tr key={"tr-"+i}>
-                  <td key={"td1-"+i}>{i+1}</td>
+                  {( screen.width > 600 ) ? <td key={"td1-"+i}>{i+1}</td> : ""}
                   <td key={"td2-"+i}><Link to={"/u/"+poll.user.username+"/"+poll._id}>{poll.data.title}</Link></td>
                   <td key={"td3-"+i}>{poll.data.results.reduce((a, b) => +a + +b, 0)}</td>
                   <td key={"td4-"+i}>{this.prettyDate(poll.date)}</td>
@@ -77,7 +94,7 @@ export default class Dashboard extends React.Component {
               )
             })
             : <tr>
-                <td>{0}</td>
+                {( screen.width > 600 ) ? <td>{0}</td> : ""}
                 <td>No Polls</td>
                 <td>0</td>
                 <td>--</td>

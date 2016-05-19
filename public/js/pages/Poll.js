@@ -91,7 +91,7 @@ export default class Poll extends React.Component {
     }
     let formBtns = {
       float: 'right !important',
-      marginRight: '16px'
+      right: '10px'
     }
 
     return(
@@ -99,10 +99,12 @@ export default class Poll extends React.Component {
         <div class="title">
           <h1><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> {this.state.poll.data.title}</h1>
         </div>
-        <button style={{marginLeft: '10px'}} class="btn btn-danger" onClick={this.delete.bind(this)}>Delete</button>
         {(this.state.loaded)?<div><Bar data={chartData} options={chartOptions} /></div>:<div>Could not load poll</div>}
         {(this.state.voted)?<p>change vote?</p>:
-        <div class="form-container centered">
+        <div class="form-container centered" style={{position: 'relative'}}>
+          <div style={{position: 'absolute', right: '16px', top:'16px'}}>
+            <button class="btn btn-danger" onClick={this.delete.bind(this)}>Delete</button>
+          </div>
           <form class="form-horizontal">
             <fieldset>
               <legend>Vote on {this.state.poll.data.title}</legend>
@@ -123,7 +125,7 @@ export default class Poll extends React.Component {
               </div>
             <div class="form-group">
               <div style={formBtns}>
-                <button type="button" style={{marginLeft: '10px'}} class="btn btn-primary" onClick={this.submit.bind(this)}>Submit</button>
+                <button type="button" class="btn btn-primary" onClick={this.submit.bind(this)}>Submit</button>
               </div>
             </div>
           </fieldset>
