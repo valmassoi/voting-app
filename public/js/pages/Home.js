@@ -20,13 +20,38 @@ export default class Home extends React.Component {
     PollStore.on("change", this.getPolls.bind(this))
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.sortBy(this.state.polls, nextProps.params.sortby)
+  }
+
   componentWillUnmount() {
     PollStore.removeAllListeners("change")
   }
 
   getPolls() {
+    this.sortBy(PollStore.getAll(), "recent")
+  }
+
+  sortBy(polls, sortby) {
+    let sort = [ ]
+    console.log(sortby);
+    if (sortby == "recent" || sortby == null){
+      sort = polls.sort((x,y)=> x.date < y.date)
+    }
+    if (sortby == "popular"){
+      sort = polls.sort((x,y)=> x.data.results.reduce((a, b) => +a + +b, 0)<y.data.results.reduce((a, b) => +a + +b, 0))
+    }
+    if (sortby == "random"){
+      sort = polls
+      for (var i = sort.length - 1; i > 0; i--) {
+       var j = Math.floor(Math.random() * (i + 1));
+       var temp = sort[i];
+       sort[i] = sort[j];
+       sort[j] = temp;
+      }
+    }
     this.setState({
-      polls: PollStore.getAll(),
+      polls,
       loaded: true
     })
   }
@@ -74,8 +99,8 @@ export default class Home extends React.Component {
           <h5><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span> or start browsing </h5>
         </div>
         <div class="row">
-          <div class="col-md-1" />
-          <div class="col-md-10">
+          <div class="col-sm-1 col-md-2 col-lg-3" />
+          <div class="col-sm-10 col-md-8 col-lg-6">
           {this.state.polls.length>0 ? this.state.polls.map( (poll, i) => {
                return (
                 <div key={i} class="polls">
@@ -86,9 +111,9 @@ export default class Home extends React.Component {
                 </div>
                )
              })
-           : <h1>No poll data</h1>}
+           : ""}
            </div>
-           <div class="col-md-1" />
+           <div class="col-sm-1 col-md-2 col-lg-3" />
         </div>
       </div>
     )

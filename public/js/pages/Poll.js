@@ -32,9 +32,7 @@ export default class Poll extends React.Component {
     let pollid = this.props.params.pollid,
         username = this.props.params.username
     PollAction.loadPolls()//TODO get from cache? instead of loading again?
-    this.setState({
-      pollid
-    })
+    this.setState({ pollid })
     PollStore.on("change", () => {
       this.setState({
         poll: PollStore.getPoll(this.state.pollid),
