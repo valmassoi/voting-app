@@ -48,7 +48,6 @@ function postPolls(title, username, ip, options, callback) {
       results: options.map( () => 0 )
     }
   }
-
   mongo.connect(dbUrl, (err, db) => {
    if (err) throw err
    let polls = db.collection('polls')
@@ -59,6 +58,24 @@ function postPolls(title, username, ip, options, callback) {
       db.close()
     })
   })
+}
+
+function votePoll(id, vote) {
+  mongo.connect(dbUrl, (err, db) => {
+   if (err) throw err
+   let polls = db.collection('polls')
+   polls.update(
+     { "_id": ObjectId(id) },
+     {
+       $set: {
+         "data.results": vote
+       }
+    },
+    function(err) {
+      if (err) throw err
+      db.close()
+    })
+ })
 }
 
 function deletePoll(id) {
@@ -83,6 +100,11 @@ app.post('/api/polls/POST', (req, res) => {
     res.end('{"success" : "POST success", "id" : '+id+', "status" : 200}');
   })
   res.writeHead(200, { 'Content-Type':  'application/json' })
+})
+app.post('/api/polls/VOTE', (req, res) => {
+  votePoll(req.body.id, req.body.vote)
+  res.writeHead(200, { 'Content-Type':  'application/json' })
+  res.end('{"success" : "POST success", "status" : 200}');
 })
 app.post('/api/polls/DELETE', (req, res) => {
   deletePoll(req.body.id)

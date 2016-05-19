@@ -1,6 +1,6 @@
 import dispatcher from '../dispatcher'
 import $ from 'jquery'
-const local = 'http://192.168.1.48:8081'//TODO CHANGE URL
+const local = ''//TODO CHANGE URL
 
 export function createPoll(title, options) {
   const url = local+'/api/polls/POST'
@@ -21,11 +21,16 @@ export function loadPolls(sortby) {
   })
 }
 
-export function vote(id, option) {//TODO CHECK IP
-  dispatcher.dispatch({type: "VOTE"})
-  //TODO Build backendpoint
+export function vote(id, vote) {//TODO CHECK IP/store //TODO Build backendpoint
+  const url = local+'/api/polls/VOTE'
+  $.ajax({
+    type: "POST",
+    url: url,
+    data: { id, vote },
+    success: (result) => dispatcher.dispatch({type: "VOTE"}),
+    dataType: "json"
+  })
 }
-
 
 export function deletePoll(id) {
   const url = local+'/api/polls/DELETE'

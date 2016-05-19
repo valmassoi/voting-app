@@ -24,6 +24,7 @@ export default class Poll extends React.Component {
         },
         loaded: false,
         voted: false,
+        vote: null,
         pollid: 0
       }
   }
@@ -46,8 +47,16 @@ export default class Poll extends React.Component {
     PollStore.removeAllListeners("change")
   }
 
+  handleRadio(e) {
+    let vote = e.target.value
+    this.setState({ vote })//also update results
+  }
+
   submit(option){
-    PollAction.vote("some option")//TODO pass opt
+    let results = this.state.poll.data.results
+    results[this.state.vote]++
+    this.setState({ results })
+    PollAction.vote(this.state.pollid, results)
   }
 
   delete(){
@@ -104,7 +113,7 @@ export default class Poll extends React.Component {
                   return(
                     <div key={option+i+"radio"} class="radio">
                       <label key={option+i+"label"}>
-                        <input key={option+i+"input"} name="option" id={option+i+"input"} value={i} type="radio" />
+                        <input key={option+i+"input"} onClick={this.handleRadio.bind(this)} name="option" id={option+i+"input"} value={i} type="radio" />
                         {option}
                       </label>
                     </div>
@@ -114,7 +123,7 @@ export default class Poll extends React.Component {
               </div>
             <div class="form-group">
               <div style={formBtns}>
-                <button type="submit" style={{marginLeft: '10px'}} class="btn btn-primary" onClick={this.submit.bind(this)}>Submit</button>
+                <button type="button" style={{marginLeft: '10px'}} class="btn btn-primary" onClick={this.submit.bind(this)}>Submit</button>
               </div>
             </div>
           </fieldset>

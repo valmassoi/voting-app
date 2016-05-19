@@ -15,9 +15,11 @@ export default class Signup extends React.Component {
          passwordTwoSuccess: ""
       }
   }
+
   handleEmailChange(event) {
-  console.log(event.target.value);//TODO CHECK VAILID EMAIL
+    console.log(event.target.value);//TODO CHECK VAILID EMAIL
   }
+
   handlePasswordChange(event) {
     //TODO owasp-password-strength-test
     let password = event.target.value,
@@ -28,12 +30,14 @@ export default class Signup extends React.Component {
     this.setState({ password, passwordSuccess })
     this.passwordSame(password, this.state.passwordTwo)
   }
+
   handlePasswordTwoChange(event) {
     let passwordTwo = event.target.value,
       passwordTwoSuccess = ""
     this.setState({ passwordTwo })
     this.passwordSame(this.state.password, passwordTwo)
   }
+
   submit(){
     let { email, password, passwordTwo} = this.state
     if (password != passwordTwo){
@@ -47,6 +51,7 @@ export default class Signup extends React.Component {
       //TODO push data to mongo
     }
   }
+
   passwordSame(password, passwordTwo){
     let passwordTwoSuccess = ""
     if (password == passwordTwo && password.length > 2)
@@ -55,6 +60,7 @@ export default class Signup extends React.Component {
       passwordTwoSuccess = ""
     this.setState({ passwordTwoSuccess })
   }
+
   render(){
     const findmeprop = "testin props"
     let formBtns = {
