@@ -6,43 +6,21 @@ import dispatcher from '../dispatcher'
 class UserStore extends EventEmitter {
   constructor() {
     super()
-    this.id = 0
-    this.users = [ ]
+    this.hash = ""
   }
 
-  getId() {
-    return this.id
-  }
-
-  getUser(id) {//BETTER TO SEARCH DB???
-    function findUser(users){
-      return users._id===id
-    }
-    return this.users.find(findUser)
-  }
-
-  getAll() {
-    return this.users
+  getHash() {
+    return this.hash
   }
 
   handleActions(action) {
     console.log(action.type);
     switch(action.type) {
       case "CREATE_USER": {
-        this.id = action.id
         break
       }
-      case "RECEIVE_USERS": {
-        this.users = action.json
-        break
-      }
-      case "VOTE": {
-        break
-      }
-      case "DELETE_USER": {
-        break
-      }
-      case "EDIT_USER": {
+      case "GOT_HASH": {
+        this.hash = action.hash
         break
       }
     }
@@ -59,5 +37,5 @@ class UserStore extends EventEmitter {
 const userStore = new UserStore
 dispatcher.register(userStore.handleActions.bind(userStore))
 // window.userStore = userStore//TODO for testing
-window.dispatcher = dispatcher//TODO for testing
+// window.dispatcher = dispatcher//TODO for testing
 export default userStore

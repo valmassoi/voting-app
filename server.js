@@ -23,7 +23,7 @@ function langFilter(words){
   return clean
 }
 
-function fetchpolls(sortby, callback) {
+function fetchPolls(callback) {
   mongo.connect(dbUrl, (err, db) => {
     if (err) throw err
     let polls = db.collection('polls')
@@ -54,14 +54,12 @@ function postPolls(title, username, options, callback) {
    let polls = db.collection('polls')
    polls.insert(poll, (err, data) => {
       if (err) throw err
-      let id=JSON.stringify(poll._id)
-      callback(id)
       db.close()
     })
   })
 }
 
-function votePoll(id, vote, ip) {
+function votePoll(id, vote, ip) {//findoneandupdate?
   mongo.connect(dbUrl, (err, db) => {
    if (err) throw err
    let polls = db.collection('polls')
@@ -92,16 +90,50 @@ function deletePoll(id) {
  })
 }
 
+function addUser(email, password) {
+  let username = email.split("@")[0]//+"theGreat" TODO check if user exists
+  let user = {
+    username,
+    email,
+    password
+  }
+  console.log(user);
+  mongo.connect(dbUrl, (err, db) => {
+   if (err) throw err
+   let users = db.collection('users')
+   users.insert(user, (err, data) => {
+      if (err) throw err
+      db.close()
+    })
+  })
+}
+
+function getUserHash(email, callback) {
+  mongo.connect(dbUrl, (err, db) => {
+    if (err) throw err
+    let users = db.collection('users')
+    users.find(
+      {
+        'email': email
+      }
+    ).toArray((err, user) => {
+      if (err) throw err
+      callback(user[0].password)
+      db.close()
+    })
+  })
+}
+
 app.get('/api/polls', (req, res) => {
   // let params = req.params.param
-  fetchpolls("date", (data) => {
+  fetchPolls( data => {
     res.writeHead(200, { "Content-Type": "application/json" });
     let json = JSON.stringify(data)
     res.end(json)
   })
 })
 app.post('/api/polls/POST', (req, res) => {
-  postPolls(langFilter(req.body.title), "username", req.body.options, (id) => {
+  postPolls(langFilter(req.body.title), req.body.username || "guest", req.body.options, (id) => {
     res.end('{"success" : "POST success", "id" : '+id+', "status" : 200}');
   })
   res.writeHead(200, { 'Content-Type':  'application/json' })
@@ -116,6 +148,18 @@ app.post('/api/polls/DELETE', (req, res) => {
   deletePoll(req.body.id)
   res.writeHead(200, { 'Content-Type':  'application/json' })
   res.end('{"success" : "POST success", "status" : 200}');
+})
+app.post('/api/POST/USER', (req, res) => {
+  addUser(req.body.email, req.body.hash)
+  res.writeHead(200, { 'Content-Type':  'application/json' })
+  res.end('{"success" : "POST success", "status" : 200}');
+})
+app.get('/api/GET/USER/:email', (req, res) => {
+  getUserHash(req.params.email, data => {
+    res.writeHead(200, { "Content-Type": "application/json" });
+    let json = JSON.stringify(data)
+    res.end(json)
+  })
 })
 app.get('*', (req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/plain' })

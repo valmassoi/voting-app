@@ -1,41 +1,75 @@
 import React from "react"
 import { Link } from "react-router"
+import createHashHistory from 'history/lib/createHashHistory'
 import { isValidPassword as passCheck } from "../utilities/hash"
-
+import * as UserAction from '../actions/UserAction'
+import UserStore from '../stores/UserStore'
 // import Nav from "../components/Nav"
+
+const history = createHashHistory({ queryKey: false })
 
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
          email: "",
-         password: ""
+         password: "",
+         loadedHash: false
       }
   }
-  handleEmailChange(event) {
-//TODO CHECK VAILID EMAIL
-    this.setState({ email: event.target.value })
+
+  componentWillMount() {
+    UserStore.on("change", this.setHash.bind(this))
   }
-  handlePasswordChange(event) {
-    let password = event.target.value
-    this.setState({ password })
+
+  componentWillUnmount() {
+    UserStore.removeAllListeners("change")
   }
-  login(e){
-    e.preventDefault()
-    let { email, password} = this.state
-    if(passCheck(password, '$2a$08$tj8TW9CUnfOBxGmhQMZRAuSMGr/cnQlATm5OcHscjEYwA5jZEfQoy')){//aaa --> to hash from db
+
+  setHash() {
+    console.log("sethash");
+    this.setState({
+      hash: UserStore.getHash(),
+      loadedHash: true
+    })
+    this.checkHash()
+  }
+
+  checkHash() {
+    let { password, hash } = this.state
+    console.log("hash:", hash);
+    if(passCheck(password, hash)){//aaa --> to hash from db
       console.log("valid pass --> login");
       localStorage.setItem("_polley_user_email", this.state.email)
       localStorage.setItem("_polley_loggedIn", true)
       // Nav.setState({ loggedIn: false })
+      history.push('/dashboard')
     }
     else{
       console.log("warn user");
     }
   }
 
-  render(){
-    const findmeprop = "testin props"
+  handleEmailChange(event) {
+//TODO CHECK VAILID EMAIL see signup
+    this.setState({ email: event.target.value })
+  }
+  handlePasswordChange(event) {
+    let password = event.target.value
+    this.setState({ password })
+  }
+
+  login(e) {
+    e.preventDefault()
+    let { email } = this.state
+    UserAction.getUser(email)//TODO ONLY RUN ONCE TO GET HASH, NOT EACH TIME and only if pass and email
+  }
+
+  twitterSignin() {
+    window.alert("Feature coming soon")
+  }
+
+  render() {
     let formBtns = {
       float: 'right !important',
       marginRight: '16px'
@@ -48,7 +82,7 @@ export default class Login extends React.Component {
         <div class="title">
           <h1> Login </h1>
         </div>
-        <button type="reset" class="btn btn-primary btn-sm" style={twitterBtn}>Signin with Twitter</button>
+        <button type="reset" class="btn btn-primary btn-sm" onClick={this.twitterSignin.bind(this)} style={twitterBtn}>Signin with Twitter</button>
         <div class="form-container centered">
           <form class="form-horizontal" onSubmit={this.login.bind(this)}>
             <fieldset>

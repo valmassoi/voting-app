@@ -2,21 +2,20 @@ import dispatcher from '../dispatcher'
 import $ from 'jquery'
 const local = 'http://192.168.1.48:8081'//TODO CHANGE URL
 
-export function createUser(email, password) {
-  const url = local+'/api/polls/USER'
+export function createUser(email, hash) {
+  const url = local+'/api/POST/USER'
   $.ajax({
     type: "POST",
-    url: url,
-    data: { email, password },
-    success: (result) => dispatcher.dispatch({type: "CREATE_USER", id: result.id}),
+    url,
+    data: { email, hash },
+    success: (result) => dispatcher.dispatch({type: "CREATE_USER"}),//, user: result.user}),
     dataType: "json"
   })
 }
 
-export function checkUser(sortby) {
-  // dispatcher.dispatch({type: "FETCH_POLLS"})TODO DELETE? ->for loader
-  const url = local+'/api/users'
-  $.getJSON(url, (json) => {
-    dispatcher.dispatch({type: "RECEIVE_USERS", json})
+export function getUser(email) {
+  const url = local+'/api/GET/USER/'+email
+  $.getJSON(url, (hash) => {
+    dispatcher.dispatch({type: "GOT_HASH", hash: hash})
   })
 }

@@ -60,5 +60,5 @@ class PollStore extends EventEmitter {
 const pollStore = new PollStore
 dispatcher.register(pollStore.handleActions.bind(pollStore))
 // window.pollStore = pollStore//TODO for testing
-window.dispatcher = dispatcher//TODO for testing
+// window.dispatcher = dispatcher//TODO for testing
 export default pollStore
