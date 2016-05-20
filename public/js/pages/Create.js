@@ -55,7 +55,8 @@ export default class Create extends React.Component {
     this.setState({ options: options })
   }
 
-  submit() {//TODO move to flux actions?
+  submit(e) {//TODO move to flux actions?
+    e.preventDefault()
     let { title, options } = this.state
     PollAction.createPoll(title, options)//TODO MORE DATA, user ect
     $("#success-alert").removeClass("hidden")//TODO check if true
@@ -90,7 +91,7 @@ export default class Create extends React.Component {
         </div>
       </div>
       <div class="form-container centered">
-        <form class="form-horizontal">
+        <form class="form-horizontal" onSubmit={this.submit.bind(this)}>
           <fieldset>
             <legend>New poll</legend>
             <div class="form-group">
@@ -119,7 +120,7 @@ export default class Create extends React.Component {
             <div class="form-group">
               <div style={formBtns}>
                 <button type="reset" class="btn btn-default" onClick={this.reset.bind(this)}>Reset</button>
-                <button type="button" style={{marginLeft: '10px'}} class="btn btn-primary" onClick={this.submit.bind(this)}>Submit</button>
+                <button type="submit" style={{marginLeft: '10px'}} class="btn btn-primary">Submit</button>
               </div>
             </div>
           </fieldset>

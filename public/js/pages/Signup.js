@@ -47,7 +47,8 @@ export default class Signup extends React.Component {
     window.alert("Feature coming soon")
   }
 
-  submit() {
+  submit(e) {
+    e.preventDefault()
     let { email, password, passwordTwo} = this.state
     if (password != passwordTwo){
       this.setState({ error: "has-error" })
@@ -89,7 +90,7 @@ export default class Signup extends React.Component {
         </div>
         <button onClick={this.twitterSignin.bind(this)} class="btn btn-primary btn-sm" style={twitterBtn}>Signin with Twitter</button>
         <div class="form-container centered">
-          <form class="form-horizontal">
+          <form class="form-horizontal" onSubmit={this.submit.bind(this)}>
             <fieldset>
               <legend>New Account</legend>
               <div class="form-group">
@@ -113,7 +114,7 @@ export default class Signup extends React.Component {
               <div class="form-group">
                 <div style={formBtns}>
                   <button type="reset" class="btn btn-default">Reset</button>
-                  <button type="button" style={{marginLeft: '10px'}} class="btn btn-primary" onClick={this.submit.bind(this)}>Create Account</button>
+                  <button type="submit" style={{marginLeft: '10px'}} class="btn btn-primary">Create Account</button>
                 </div>
               </div>
             </fieldset>
