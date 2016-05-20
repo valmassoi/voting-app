@@ -59,7 +59,7 @@ function postPolls(title, username, options, callback) {
   })
 }
 
-function votePoll(id, vote, ip) {//findoneandupdate?
+function votePoll(id, vote, ip) {
   mongo.connect(dbUrl, (err, db) => {
    if (err) throw err
    let polls = db.collection('polls')
@@ -87,6 +87,26 @@ function deletePoll(id) {
    let polls = db.collection('polls')
    polls.remove( {"_id": ObjectId(id)});
    db.close()
+ })
+}
+
+function addOption(options, results, id) {
+  mongo.connect(dbUrl, (err, db) => {
+   if (err) throw err
+   let polls = db.collection('polls')
+   console.log(options, results, id);
+   polls.update(
+     { "_id": ObjectId(id) },
+     {
+       $set: {
+         "data.options": options,
+         "data.results": results
+       }
+    },
+    function(err) {
+      if (err) throw err
+      db.close()
+    })
  })
 }
 
@@ -118,7 +138,10 @@ function getUserHash(email, callback) {
       }
     ).toArray((err, user) => {
       if (err) throw err
-      callback(user[0].password)
+      if(user.length>0)
+        callback(user[0].password)
+      else
+        callback("error: no user")
       db.close()
     })
   })
@@ -133,7 +156,7 @@ app.get('/api/polls', (req, res) => {
   })
 })
 app.post('/api/polls/POST', (req, res) => {
-  postPolls(langFilter(req.body.title), req.body.username || "guest", req.body.options, (id) => {
+  postPolls(langFilter(req.body.title), req.body.creator || "guest", req.body.options, (id) => {
     res.end('{"success" : "POST success", "id" : '+id+', "status" : 200}');
   })
   res.writeHead(200, { 'Content-Type':  'application/json' })
@@ -146,6 +169,11 @@ app.post('/api/polls/VOTE', (req, res) => {
 })
 app.post('/api/polls/DELETE', (req, res) => {
   deletePoll(req.body.id)
+  res.writeHead(200, { 'Content-Type':  'application/json' })
+  res.end('{"success" : "POST success", "status" : 200}');
+})
+app.post('/api/polls/OPTION', (req, res) => {
+  addOption(req.body.options, req.body.results, req.body.id)
   res.writeHead(200, { 'Content-Type':  'application/json' })
   res.end('{"success" : "POST success", "status" : 200}');
 })

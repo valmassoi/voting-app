@@ -57,14 +57,16 @@ export default class Create extends React.Component {
 
   submit(e) {//TODO move to flux actions?
     e.preventDefault()
-    let { title, options } = this.state
-    PollAction.createPoll(title, options)//TODO MORE DATA, user ect
+    let { title, options } = this.state,
+        creator = localStorage.getItem("_polley_user_email")
+    PollAction.createPoll(title, options, creator)
     $("#success-alert").removeClass("hidden")//TODO check if true
   }
 
   handleTitleChange(event) {
    this.setState({title: event.target.value.substr(0, 30)});
   }
+
   handleOptionChange(event) {//BUG weird on iPhone auto complete
     let id = event.target.id,
         i = id[id.length -1],
@@ -78,7 +80,7 @@ export default class Create extends React.Component {
       float: 'right !important',
       marginRight: '16px'
     }
-
+    let username = localStorage.getItem("_polley_user_email")||"guest"
     return(
       <div>
       <div class="title">
@@ -87,7 +89,7 @@ export default class Create extends React.Component {
       <div class="alerts">
         <div id="success-alert" class="alert alert-dismissible alert-success hidden" style={{width: '400px'}}>
           <button type="button" class="close" data-dismiss="alert">&times;</button>
-          <strong>Success!</strong> Your poll can be viewed at <Link to={"/u/username/"+ this.state.id}>TestPollurl</Link>
+          <strong>Success!</strong> Your poll can be viewed at <Link to={`/u/${username}/ ${this.state.id}`}>TestPollurl</Link>
         </div>
       </div>
       <div class="form-container centered">

@@ -10,7 +10,7 @@ export default class Nav extends React.Component {
     this.state = {
       collapsed: true,
       loggedIn: localStorage.getItem("_polley_loggedIn")||false,
-      userName: localStorage.getItem("_polley_user_email"),
+      userName: localStorage.getItem("_polley_user_email").split("@")[0],
       searchInput: ""
     }
   }

@@ -2,12 +2,12 @@ import dispatcher from '../dispatcher'
 import $ from 'jquery'
 const local = 'http://192.168.1.48:8081'//TODO CHANGE URL
 
-export function createPoll(title, options) {
+export function createPoll(title, options, creator) {
   const url = local+'/api/polls/POST'
   $.ajax({
     type: "POST",
     url: url,
-    data: { title, options },
+    data: { title, options, creator },
     success: (result) => dispatcher.dispatch({type: "CREATE_POLL", id: result.id}),
     dataType: "json"
   })
@@ -28,6 +28,17 @@ export function vote(id, vote) {//TODO CHECK IP/store //TODO Build backendpoint
     url: url,
     data: { id, vote },
     success: (result) => dispatcher.dispatch({type: "VOTE"}),
+    dataType: "json"
+  })
+}
+
+export function addOption(options, results, id) {
+  const url = local+'/api/polls/OPTION'
+  $.ajax({
+    type: "POST",
+    url: url,
+    data: { options, results, id },
+    success: () => dispatcher.dispatch({type: "ADD_OPTION"}),
     dataType: "json"
   })
 }

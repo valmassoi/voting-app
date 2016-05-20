@@ -86,11 +86,14 @@ export default class Poll extends React.Component {
 
   addOption() {
     //TODO hit backend with newOption and add to results
-    let options = this.state.poll.data.options.push(this.state.newOption),
-        results = this.state.poll.data.results.push(0),
+    let options = this.state.poll.data.options.concat(this.state.newOption),
+        results = this.state.poll.data.results.concat(0),
         newOption = ""
+    PollAction.addOption(options, results, this.state.poll._id)
     $("#newOption").val("")
-    this.setState({ options, results, newOption })
+    let poll = this.state.poll
+    poll.data = { options, results }
+    this.setState({ poll, newOption })
   }
 
   render() {
@@ -151,7 +154,7 @@ export default class Poll extends React.Component {
                     </div>
                   )}
                 )}
-                <input class="form-control hidden" id="newOption" style={{marginTop: '8px'}} placeholder="New option" type="text" onChange={this.handleNewOption.bind(this)}/>
+                <input class="form-control" id="newOption" style={{marginTop: '8px'}} placeholder="New option" type="text" onChange={this.handleNewOption.bind(this)}/>
                 </div>
               </div>
             <div class="form-group">

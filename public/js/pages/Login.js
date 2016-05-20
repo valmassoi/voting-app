@@ -38,7 +38,9 @@ export default class Login extends React.Component {
   checkHash() {
     let { password, hash } = this.state
     console.log("hash:", hash);
-    if(passCheck(password, hash)){//aaa --> to hash from db
+    if(hash=="error: no user")
+      window.alert("Email does not exist.\nTry again or create an account")
+    else if(passCheck(password, hash)){//aaa --> to hash from db
       console.log("valid pass --> login");
       localStorage.setItem("_polley_user_email", this.state.email)
       localStorage.setItem("_polley_loggedIn", true)
@@ -46,7 +48,7 @@ export default class Login extends React.Component {
       history.push('/dashboard')
     }
     else{
-      console.log("warn user");
+      window.alert("Error: Password did not match")
     }
   }
 
