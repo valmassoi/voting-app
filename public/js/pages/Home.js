@@ -21,7 +21,10 @@ export default class Home extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.sortBy(this.state.polls, nextProps.params.sortby)
+    if (nextProps.params.sortby)
+      this.sortBy(this.state.polls, nextProps.params.sortby)
+    if (nextProps.params.query)
+      this.sortBy(this.state.polls, "search", nextProps.params.query)
   }
 
   componentWillUnmount() {
@@ -32,9 +35,8 @@ export default class Home extends React.Component {
     this.sortBy(PollStore.getAll(), "recent")
   }
 
-  sortBy(polls, sortby) {
+  sortBy(polls, sortby, query) {
     let sort = [ ]
-    console.log(sortby);
     if (sortby == "recent" || sortby == null){
       sort = polls.sort((x,y)=> x.date < y.date)
     }
@@ -50,8 +52,11 @@ export default class Home extends React.Component {
        sort[j] = temp;
       }
     }
+    if (sortby == "search"){
+      sort = polls.sort( (a,b) => b.data.title.trim().toLowerCase().includes(query.toLowerCase()) )
+    }
     this.setState({
-      polls,
+      polls: sort,
       loaded: true
     })
   }
@@ -114,6 +119,17 @@ export default class Home extends React.Component {
            : ""}
            </div>
            <div class="col-sm-1 col-md-2 col-lg-3" />
+        </div>
+        <div class="centered" style={{display: 'block', width: '300'}}>
+        <ul class="pagination">
+          <li class="disabled"><a href="#">&laquo;</a></li>
+          <li class="active"><a href="#">1</a></li>
+          <li><a href="#">2</a></li>
+          <li><a href="#">3</a></li>
+          <li><a href="#">4</a></li>
+          <li><a href="#">5</a></li>
+          <li><a href="#">&raquo;</a></li>
+        </ul>
         </div>
       </div>
     )

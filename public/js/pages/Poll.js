@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router'
+import $ from 'jquery'
 import Chart from 'chart.js'
 import { Bar } from 'react-chartjs'
 import * as PollAction from '../actions/PollAction'
@@ -26,7 +27,8 @@ export default class Poll extends React.Component {
         loaded: false,
         voted: false,
         vote: null,
-        pollid: 0
+        pollid: 0,
+        newOption: ""
       }
   }
   componentWillMount() {
@@ -71,6 +73,26 @@ export default class Poll extends React.Component {
     PollAction.deletePoll(this.state.pollid)
   }
 
+  handleNewOption(e) {
+    let newOption = e.target.value
+    if(newOption.length>0){
+      $("#add-option").removeClass("hidden")
+      this.setState({ newOption })
+    }
+    else {
+      $("#add-option").addClass("hidden")
+    }
+  }
+
+  addOption() {
+    //TODO hit backend with newOption and add to results
+    let options = this.state.poll.data.options.push(this.state.newOption),
+        results = this.state.poll.data.results.push(0),
+        newOption = ""
+    $("#newOption").val("")
+    this.setState({ options, results, newOption })
+  }
+
   render() {
     let chartData = {
         labels: this.state.poll.data.options,
@@ -107,7 +129,7 @@ export default class Poll extends React.Component {
         <div class="title">
           <h1><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> {this.state.poll.data.title}</h1>
         </div>
-        {(this.state.loaded)?<div><Bar data={chartData} options={chartOptions} /></div>:<div>Could not load poll</div>}
+        {(this.state.loaded)?<div><Bar data={chartData} options={chartOptions} /></div>:<div> </div>}
         {(this.state.voted)?<p>change vote?</p>:
         <div class="form-container centered" style={{position: 'relative'}}>
           <div style={{position: 'absolute', right: '16px', top:'16px'}}>
@@ -129,10 +151,12 @@ export default class Poll extends React.Component {
                     </div>
                   )}
                 )}
+                <input class="form-control hidden" id="newOption" style={{marginTop: '8px'}} placeholder="New option" type="text" onChange={this.handleNewOption.bind(this)}/>
                 </div>
               </div>
             <div class="form-group">
               <div style={formBtns}>
+                <button type="button" id="add-option" style={{marginRight: '5px'}} class="btn btn-default hidden" onClick={this.addOption.bind(this)}>Add Option</button>
                 <button type="button" class="btn btn-primary" onClick={this.submit.bind(this)}>Submit</button>
               </div>
             </div>

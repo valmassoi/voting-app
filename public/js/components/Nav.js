@@ -1,5 +1,8 @@
 import React from "react"
 import { IndexLink, Link } from "react-router"
+import createHashHistory from 'history/lib/createHashHistory'
+
+const history = createHashHistory({ queryKey: false })
 
 export default class Nav extends React.Component {
   constructor() {
@@ -7,7 +10,8 @@ export default class Nav extends React.Component {
     this.state = {
       collapsed: true,
       loggedIn: localStorage.getItem("_polley_loggedIn")||false,
-      userName: localStorage.getItem("_polley_user_email")
+      userName: localStorage.getItem("_polley_user_email"),
+      searchInput: ""
     }
   }
 
@@ -16,11 +20,26 @@ export default class Nav extends React.Component {
     const collapsed = !this.state.collapsed
     this.setState({collapsed})
   }
+
   logout() {
     const loggedIn = false
     localStorage.setItem("_polley_user_email", "")
     localStorage.setItem("_polley_loggedIn", false)
     this.setState({loggedIn})
+  }
+
+  search(e) {
+    e.preventDefault()
+    history.push(`/search/${this.state.searchInput}`)
+  }
+
+  handleSearchInput(e) {
+    let searchInput = e.target.value
+    this.setState({ searchInput })
+    if (e.keyCode == 13) {
+      console.log("keeey");
+      history.push(`/search/${this.state.searchInput}`)
+    }
   }
 
   render(){
@@ -45,7 +64,6 @@ export default class Nav extends React.Component {
             </button>
             <a class="navbar-brand" href="#">Polley</a>
           </div>
-
           <div class={"navbar-collapse " + navClass} id="bs-example-navbar-collapse-2">
             <ul class="nav navbar-nav">
               <li class={homeClass}><IndexLink to="/" onClick={this.toggleCollapse.bind(this)}>Home</IndexLink></li>
@@ -59,9 +77,9 @@ export default class Nav extends React.Component {
                 </ul>
               </li>
             </ul>
-            <form class="navbar-form navbar-left" role="search">
+            <form class="navbar-form navbar-left" role="search" onSubmit={this.search.bind(this)}>
               <div class="form-group">
-                <input class="form-control" placeholder="Search" type="text" />
+                <input class="form-control" onChange={this.handleSearchInput.bind(this)} placeholder="Search" type="text" />
               </div>
               <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
             </form>

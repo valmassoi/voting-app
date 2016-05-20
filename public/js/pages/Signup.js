@@ -60,7 +60,7 @@ export default class Signup extends React.Component {
       console.log(hash)
       //TODO push data to mongo
       //route to dash
-      history.push('/dashboard');
+      history.push('/dashboard')
     }
   }
 
