@@ -143,15 +143,27 @@ export default class Poll extends React.Component {
       marginTop: '7px',
       marginRight: '7px'
     }
+    let loggedInHidden = this.state.user?"":"hidden"
+    let loadedHidden = this.state.loaded?"":"hidden"
     return(
       <div>
         <div class="title">
           <h1><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> {this.state.poll.data.title}</h1>
         </div>
         <a href={twitterUrl} style={twitterStyle} target='_blank' class="btn btn-primary btn-sm">Tweet this poll</a>
-        {(this.state.loaded)?<div><Bar data={chartData} options={chartOptions} /></div>:<div> </div>}
+        {(this.state.loaded)?
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-1 col-md-2 col-lg-3" />
+              <div class="col-sm-10 col-md-8 col-lg-6">
+                <Bar data={chartData} options={chartOptions} /></div>
+              <div class="col-sm-1 col-md-2 col-lg-3" />
+            </div>
+          </div>
+          :<div> </div>
+        }
         {(this.state.voted)?<p>change vote?</p>:
-        <div class="form-container centered" style={{position: 'relative'}}>
+        <div class={"form-container centered "+loadedHidden} style={{position: 'relative'}}>
           <div style={{position: 'absolute', right: '16px', top:'16px'}}>
             <button class={"btn btn-danger "+deleteClass} onClick={this.delete.bind(this)}>Delete</button>
           </div>
@@ -171,7 +183,7 @@ export default class Poll extends React.Component {
                     </div>
                   )}
                 )}
-                <input class="form-control" id="newOption" style={{marginTop: '8px'}} placeholder="New option" type="text" onChange={this.handleNewOption.bind(this)}/>
+                <input class={"form-control "+loggedInHidden} id="newOption" style={{marginTop: '8px'}} placeholder="New option" type="text" onChange={this.handleNewOption.bind(this)}/>
                 </div>
               </div>
             <div class="form-group">

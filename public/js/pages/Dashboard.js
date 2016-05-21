@@ -103,7 +103,7 @@ export default class Dashboard extends React.Component {
             </tr>
           </thead>
           <tbody>
-          {this.state.loaded ? this.state.polls.map( (poll, i) => {//TODO KEYS
+          {this.state.loaded ? this.state.polls.map( (poll, i) => {
                return (
                 <tr key={"tr-"+i}>
                   {( screen.width > 600 ) ? <td key={"td1-"+i}>{i+1}</td> : ""}

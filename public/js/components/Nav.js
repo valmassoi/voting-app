@@ -27,7 +27,6 @@ export default class Nav extends React.Component {
   }
 
   componentWillUnmount() {
-    console.log("unmount nav");//does this ever happen?
     UserStore.removeAllListeners("login_change")
   }
 
