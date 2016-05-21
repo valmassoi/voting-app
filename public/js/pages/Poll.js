@@ -1,11 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router'
+import createHashHistory from 'history/lib/createHashHistory'
 import $ from 'jquery'
 import Chart from 'chart.js'
 import { Bar } from 'react-chartjs'
 import * as PollAction from '../actions/PollAction'
 import PollStore from '../stores/PollStore'
 import _ from 'lodash'
+
+const history = createHashHistory({ queryKey: false })
 //TODO SHARE button, delete if username, NOT A POLL ERR
 export default class Poll extends React.Component {
   constructor(props) {
@@ -71,6 +74,7 @@ export default class Poll extends React.Component {
 
   delete(){
     PollAction.deletePoll(this.state.pollid)
+    history.push('/dashboard')
   }
 
   handleNewOption(e) {

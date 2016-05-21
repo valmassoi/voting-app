@@ -130,6 +130,7 @@ export default class Home extends React.Component {
           <li><a href="#">5</a></li>
           <li><a href="#">&raquo;</a></li>
         </ul>
+        <p style={{textAlign:'center', color:'lightgrey'}}>Pageination coming soon</p>
         </div>
       </div>
     )

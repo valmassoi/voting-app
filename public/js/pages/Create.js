@@ -17,6 +17,7 @@ export default class Create extends React.Component {
   }
 
   componentWillMount() {
+    console.log("mounted");
     PollStore.on("change", this.setId.bind(this))
   }
 
@@ -25,9 +26,11 @@ export default class Create extends React.Component {
   }
 
   setId() {
+    console.log("set id");
     this.setState({
       id: PollStore.getId()
     })
+    $("#success-alert").removeClass("hidden")
   }
 
   addOption() {
@@ -59,8 +62,10 @@ export default class Create extends React.Component {
     e.preventDefault()
     let { title, options } = this.state,
         creator = localStorage.getItem("_polley_user_email")
-    PollAction.createPoll(title, options, creator)
-    $("#success-alert").removeClass("hidden")//TODO check if true
+    if(title.length>0 && options[0].length>0 && options[1].length>0)
+      PollAction.createPoll(title, options, creator)
+    else
+      window.alert("Error: Missing Title or Options")
   }
 
   handleTitleChange(event) {
@@ -89,7 +94,7 @@ export default class Create extends React.Component {
       <div class="alerts">
         <div id="success-alert" class="alert alert-dismissible alert-success hidden" style={{width: '400px'}}>
           <button type="button" class="close" data-dismiss="alert">&times;</button>
-          <strong>Success!</strong> Your poll can be viewed at <Link to={`/u/${username}/ ${this.state.id}`}>TestPollurl</Link>
+          <strong>Success!</strong> Your poll can be viewed at <Link to={`/u/${username}/${this.state.id}`}>{this.state.title}</Link>
         </div>
       </div>
       <div class="form-container centered">

@@ -54,6 +54,8 @@ function postPolls(title, username, options, callback) {
    let polls = db.collection('polls')
    polls.insert(poll, (err, data) => {
       if (err) throw err
+      let id=JSON.stringify(poll._id)
+      callback(id)
       db.close()
     })
   })

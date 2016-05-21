@@ -26,11 +26,9 @@ class PollStore extends EventEmitter {
   }
 
   handleActions(action) {
-    console.log(action.type);
     switch(action.type) {
       case "CREATE_POLL": {//TODO MOVE FROM create.js - done?
-        //GET ID TO PASS BACK TO CREATE POLL for url
-        this.id = action.id
+        this.id = action.result.id
         break
       }
       case "RECEIVE_POLLS": {
