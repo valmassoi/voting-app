@@ -11,7 +11,7 @@ export default class Nav extends React.Component {
     super()
     this.state = {
       collapsed: true,
-      userName: localStorage.getItem("_polley_user_email").split("@")[0],
+      userName: "guest",//localStorage.getItem("_polley_user_email").split("@")[0]||"guest",
       searchInput: ""
     }
   }

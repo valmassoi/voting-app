@@ -129,17 +129,22 @@ export default class Poll extends React.Component {
           onClick: () => console.log("click")
         }
     }
-    let formBtns = {
+    const formBtns = {
       float: 'right !important',
       right: '10px'
     }
     const twitterUrl = "http://twitter.com/home?status=Vote%20on%20"+this.state.poll.data.title+window.location.href.replace("#", "%23")+"%20via Polley"
+    const twitterStyle = {
+      float: 'right !important',
+      marginTop: '7px',
+      marginRight: '7px'
+    }
     return(
       <div>
         <div class="title">
           <h1><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> {this.state.poll.data.title}</h1>
         </div>
-        <a href={twitterUrl} target='_blank' class="btn btn-primary btn-sm">Tweet this poll</a>
+        <a href={twitterUrl} style={twitterStyle} target='_blank' class="btn btn-primary btn-sm">Tweet this poll</a>
         {(this.state.loaded)?<div><Bar data={chartData} options={chartOptions} /></div>:<div> </div>}
         {(this.state.voted)?<p>change vote?</p>:
         <div class="form-container centered" style={{position: 'relative'}}>

@@ -85,7 +85,7 @@ export default class Login extends React.Component {
           <h1> Login </h1>
         </div>
         <button type="reset" class="btn btn-primary btn-sm" onClick={this.twitterSignin.bind(this)} style={twitterBtn}>Signin with Twitter</button>
-        <div class="form-container centered">
+        <div class="form-container container-fluid centered">
           <form class="form-horizontal" onSubmit={this.login.bind(this)}>
             <fieldset>
               <legend>Login to Account</legend>

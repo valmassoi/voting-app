@@ -103,7 +103,7 @@ export default class Home extends React.Component {
           <Link to="signup" class="btn btn-default btn-lg">Signup</Link>
           <h5><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span> or start browsing </h5>
         </div>
-        <div class="row">
+        <div class="row-fluid">
           <div class="col-sm-1 col-md-2 col-lg-3" />
           <div class="col-sm-10 col-md-8 col-lg-6">
           {this.state.polls.length>0 ? this.state.polls.map( (poll, i) => {
