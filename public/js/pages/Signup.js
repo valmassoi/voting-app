@@ -110,6 +110,7 @@ export default class Signup extends React.Component {
       <div>
         <div class="title">
           <h1> Create a new account </h1>
+          <Link to="login" class="btn btn-default btn-lg">Login</Link>
         </div>
         <button onClick={this.twitterSignin.bind(this)} class="btn btn-primary btn-sm" style={twitterBtn}>Signin with Twitter</button>
         <div class="form-container centered">

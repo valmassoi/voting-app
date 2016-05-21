@@ -19,3 +19,11 @@ export function getUser(email) {
     dispatcher.dispatch({type: "GOT_HASH", hash: hash})
   })
 }
+
+export function login(email) {
+  dispatcher.dispatch({type: "LOGIN", email: email})
+}
+
+export function logout() {
+  dispatcher.dispatch({type: "LOGOUT"})
+}

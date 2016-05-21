@@ -1,9 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router'
+import createHashHistory from 'history/lib/createHashHistory'
 import $ from 'jquery'
 import * as PollAction from '../actions/PollAction'
 import PollStore from '../stores/PollStore'
 
+const history = createHashHistory({ queryKey: false })
 //TODO check for Login, MOOOVEE TO ACTIONS
 export default class Create extends React.Component {
   constructor(props) {
@@ -17,7 +19,9 @@ export default class Create extends React.Component {
   }
 
   componentWillMount() {
-    console.log("mounted");
+    let user=localStorage.getItem("_polley_user_email")
+    if (!user)
+      history.push('/signup')
     PollStore.on("change", this.setId.bind(this))
   }
 

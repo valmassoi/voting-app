@@ -36,15 +36,17 @@ export default class Login extends React.Component {
   }
 
   checkHash() {
-    let { password, hash } = this.state
+    let { password, hash, email } = this.state
     console.log("hash:", hash);
     if(hash=="error: no user")
       window.alert("Email does not exist.\nTry again or create an account")
-    else if(passCheck(password, hash)){//aaa --> to hash from db
+    else if(passCheck(password, hash)){
       console.log("valid pass --> login");
-      localStorage.setItem("_polley_user_email", this.state.email)
+      localStorage.setItem("_polley_user_email", email)
       localStorage.setItem("_polley_loggedIn", true)
-      // Nav.setState({ loggedIn: false })
+      setTimeout(function() {//TODO timeout fixes err:Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch UGGGGLLLLLLYYYYYY use a promise?
+        UserAction.login(email);
+      }, 1);
       history.push('/dashboard')
     }
     else{

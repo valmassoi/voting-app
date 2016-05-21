@@ -6,11 +6,15 @@ import dispatcher from '../dispatcher'
 class UserStore extends EventEmitter {
   constructor() {
     super()
-    this.hash = ""
+    this.hash = "",
+    this.email = ""//change to localStorage.getItem("_polley_user_email")
   }
 
   getHash() {
     return this.hash
+  }
+  getEmail() {
+    return this.email
   }
 
   handleActions(action) {
@@ -21,6 +25,14 @@ class UserStore extends EventEmitter {
       }
       case "GOT_HASH": {
         this.hash = action.hash
+        break
+      }
+      case "LOGIN": {
+        this.email = action.email
+        break
+      }
+      case "LOGOUT": {
+        this.email = ""
         break
       }
     }

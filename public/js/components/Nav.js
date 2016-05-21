@@ -1,6 +1,8 @@
 import React from "react"
 import { IndexLink, Link } from "react-router"
 import createHashHistory from 'history/lib/createHashHistory'
+import * as UserAction from '../actions/UserAction'
+import UserStore from '../stores/UserStore'
 
 const history = createHashHistory({ queryKey: false })
 
@@ -19,6 +21,21 @@ export default class Nav extends React.Component {
     console.log("collapse");
     const collapsed = !this.state.collapsed
     this.setState({collapsed})
+  }
+
+  componentWillMount() {
+    UserStore.on("change", this.user.bind(this))
+  }
+
+  componentWillUnmount() {
+    UserStore.removeAllListeners("change")
+  }
+
+  user() {
+    let userName=UserStore.getEmail().split("@")[0]
+    console.log("yeah user:", userName);
+    if(userName.length>0)
+      this.setState({userName})
   }
 
   logout() {
