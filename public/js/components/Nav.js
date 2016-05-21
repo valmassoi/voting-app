@@ -11,7 +11,7 @@ export default class Nav extends React.Component {
     super()
     this.state = {
       collapsed: true,
-      userName: "guest",//localStorage.getItem("_polley_user_email").split("@")[0]||"guest",
+      userName: UserStore.getEmail(),//localStorage.getItem("_polley_user_email").split("@")[0]||"guest",
       searchInput: ""
     }
   }
@@ -37,7 +37,7 @@ export default class Nav extends React.Component {
   }
 
   logout() {
-    localStorage.setItem("_polley_user_email", "")
+    localStorage.clear()//localStorage.setItem("_polley_user_email", "")
     UserAction.logout()
   }
 

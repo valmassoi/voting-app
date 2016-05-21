@@ -6,10 +6,11 @@ import Chart from 'chart.js'
 import { Bar } from 'react-chartjs'
 import * as PollAction from '../actions/PollAction'
 import PollStore from '../stores/PollStore'
+import UserStore from '../stores/UserStore'
 import _ from 'lodash'
 
 const history = createHashHistory({ queryKey: false })
-//TODO SHARE button, delete if username, NOT A POLL ERR
+//TODO NOT A POLL ERR
 export default class Poll extends React.Component {
   constructor(props) {
     super(props);
@@ -31,10 +32,12 @@ export default class Poll extends React.Component {
         voted: false,
         vote: null,
         pollid: 0,
-        newOption: ""
+        newOption: "",
+        user: ""
       }
   }
   componentWillMount() {
+    let user=UserStore.getEmail()
     let pollid = this.props.params.pollid,
         username = this.props.params.username
     PollAction.loadPolls()//TODO get from cache? instead of loading again?
@@ -42,7 +45,8 @@ export default class Poll extends React.Component {
     PollStore.on("change", () => {
       this.setState({
         poll: PollStore.getPoll(this.state.pollid),
-        loaded: true
+        loaded: true,
+        user
       })
     })
   }
@@ -102,7 +106,7 @@ export default class Poll extends React.Component {
   }
 
   render() {
-    const localEmail = localStorage.getItem("_polley_user_email")
+    const localEmail = this.state.user||"guest"//localStorage.getItem("_polley_user_email")
     const deleteClass = (localEmail==this.state.poll.users.creator) ? "" : "hidden"
     let chartData = {
         labels: this.state.poll.data.options,

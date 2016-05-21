@@ -4,6 +4,7 @@ import createHashHistory from 'history/lib/createHashHistory'
 import $ from 'jquery'
 import * as PollAction from '../actions/PollAction'
 import PollStore from '../stores/PollStore'
+import UserStore from '../stores/UserStore'
 import _ from 'lodash'
 
 const history = createHashHistory({ queryKey: false })
@@ -15,14 +16,17 @@ export default class Create extends React.Component {
     this.state = {
       title: "",
       options: ["iPhone", "Android"],
-      id: 0
+      id: 0,
+      user: ""
     }
   }
 
   componentWillMount() {
-    let user=localStorage.getItem("_polley_user_email")
+    let user=UserStore.getEmail()//localStorage.getItem("_polley_user_email")
     if (!user)
       history.push('/signup')
+    else
+      this.setState({ user })
     PollStore.on("change", this.setId.bind(this))
   }
 
@@ -66,7 +70,7 @@ export default class Create extends React.Component {
   submit(e) {//TODO move to flux actions?
     e.preventDefault()
     let { title, options } = this.state,
-        creator = localStorage.getItem("_polley_user_email")
+        creator = this.state.user//localStorage.getItem("_polley_user_email")
     if(title.length>0 && options[0].length>0 && options[1].length>0)
       PollAction.createPoll(_.capitalize(title), options, creator)
     else
@@ -90,7 +94,7 @@ export default class Create extends React.Component {
       float: 'right !important',
       marginRight: '16px'
     }
-    let username = localStorage.getItem("_polley_user_email")||"guest"
+    let username = this.state.user||"guest"//localStorage.getItem("_polley_user_email")
     return(
       <div>
       <div class="title">

@@ -4,10 +4,9 @@ import createHashHistory from 'history/lib/createHashHistory'
 import { isValidPassword as passCheck } from "../utilities/hash"
 import * as UserAction from '../actions/UserAction'
 import UserStore from '../stores/UserStore'
-// import Nav from "../components/Nav"
 
 const history = createHashHistory({ queryKey: false })
-
+//TODO hash email or password so cant hack localstorage
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -19,6 +18,9 @@ export default class Login extends React.Component {
   }
 
   componentWillMount() {
+    let storedEmail=localStorage.getItem("_polley_user_email")
+    if(storedEmail)
+      this.logUserIn(storedEmail)
     UserStore.on("change", this.setHash.bind(this))
   }
 
@@ -40,16 +42,20 @@ export default class Login extends React.Component {
     if(hash=="error: no user")
       window.alert("Email does not exist.\nTry again or create an account")
     else if(passCheck(password, hash)){
-      console.log("valid pass --> login");
-      localStorage.setItem("_polley_user_email", email)
-      setTimeout(function() {//TODO timeout fixes minime.herokuapp.com/HkhLWITz UGLLLY use a promise?
-        UserAction.login(email)
-      }, 1);
-      history.push('/dashboard')
+      this.logUserIn(email)
     }
     else{
       window.alert("Error: Password did not match")
     }
+  }
+
+  logUserIn(email) {
+    console.log("valid pass --> login");
+    localStorage.setItem("_polley_user_email", email)
+    setTimeout(function() {//TODO timeout fixes minime.herokuapp.com/HkhLWITz UGLLLY use a promise?
+      UserAction.login(email)
+    }, 1);
+    history.push('/dashboard')
   }
 
   handleEmailChange(event) {
