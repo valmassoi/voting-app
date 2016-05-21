@@ -2,7 +2,8 @@ import React from "react"
 import { Link } from "react-router"
 import * as PollAction from '../actions/PollAction'
 import PollStore from '../stores/PollStore'
-//TODO DELETE/EDIT
+import UserStore from '../stores/UserStore'
+//TODO EDIT
 export default class Dashboard extends React.Component {
   constructor(props) {
     super(props)
@@ -43,7 +44,6 @@ export default class Dashboard extends React.Component {
 
   prettyDate(d) {//TODO timezone (any user post-> UTC -> their zone)
     let date = new Date(d)
-    console.log(date);
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     let month = monthNames[date.getMonth()], day = date.getDate(), year = date.getFullYear()
     let natural = month + " " + day + ", " + year

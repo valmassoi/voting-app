@@ -84,6 +84,8 @@ export default class Signup extends React.Component {
       let hash = generateHash(password)
       this.setState({ passwordSuccess: "has-success" })//not needed bcuz push
       UserAction.createUser(email, hash)
+      localStorage.setItem("_polley_user_email", email)
+      UserAction.login(email)
       history.push('/dashboard')
     }
   }

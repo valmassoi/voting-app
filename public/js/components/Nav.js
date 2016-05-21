@@ -11,7 +11,6 @@ export default class Nav extends React.Component {
     super()
     this.state = {
       collapsed: true,
-      loggedIn: localStorage.getItem("_polley_loggedIn")||false,
       userName: localStorage.getItem("_polley_user_email").split("@")[0],
       searchInput: ""
     }
@@ -24,25 +23,22 @@ export default class Nav extends React.Component {
   }
 
   componentWillMount() {
-    UserStore.on("change", this.user.bind(this))
+    UserStore.on("login_change", this.user.bind(this))
   }
 
   componentWillUnmount() {
-    UserStore.removeAllListeners("change")
+    console.log("unmount nav");//does this ever happen?
+    UserStore.removeAllListeners("login_change")
   }
 
   user() {
-    let userName=UserStore.getEmail().split("@")[0]
-    console.log("yeah user:", userName);
-    if(userName.length>0)
-      this.setState({userName})
+    let userName=UserStore.getEmail().split("@")[0]||""
+    this.setState({userName})
   }
 
   logout() {
-    const loggedIn = false
     localStorage.setItem("_polley_user_email", "")
-    localStorage.setItem("_polley_loggedIn", false)
-    this.setState({loggedIn})
+    UserAction.logout()
   }
 
   search(e) {
@@ -61,14 +57,14 @@ export default class Nav extends React.Component {
 
   render(){
     const { location } = this.props
-    const { collapsed, loggedIn } = this.state
+    const { collapsed, userName } = this.state
     const homeClass = location.pathname === "/" ? "active" : ""
     const createClass = location.pathname.match(/^\/create/) ? "active" : ""
     // const signupClass = location.pathname.match(/^\/signup/) ? "active" : ""
     const loginClass = location.pathname.match(/^\/login/) ? "active" : ""
     const navClass = collapsed ? "collapse" : ""
-    const loggedoutClass = loggedIn ? "hidden" : ""
-    const loggedinClass = loggedIn ? "" : "hidden"
+    const loggedoutClass = (userName!="") ? "hidden" : ""
+    const loggedinClass = (userName!="") ? "" : "hidden"
     return(
       <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">

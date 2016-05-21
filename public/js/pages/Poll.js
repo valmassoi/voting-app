@@ -101,6 +101,8 @@ export default class Poll extends React.Component {
   }
 
   render() {
+    const localEmail = localStorage.getItem("_polley_user_email")
+    const deleteClass = (localEmail==this.state.poll.users.creator) ? "" : "hidden"
     let chartData = {
         labels: this.state.poll.data.options,
         datasets: [{
@@ -140,7 +142,7 @@ export default class Poll extends React.Component {
         {(this.state.voted)?<p>change vote?</p>:
         <div class="form-container centered" style={{position: 'relative'}}>
           <div style={{position: 'absolute', right: '16px', top:'16px'}}>
-            <button class="btn btn-danger" onClick={this.delete.bind(this)}>Delete</button>
+            <button class={"btn btn-danger "+deleteClass} onClick={this.delete.bind(this)}>Delete</button>
           </div>
           <form class="form-horizontal">
             <fieldset>
