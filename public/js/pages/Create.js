@@ -4,6 +4,7 @@ import createHashHistory from 'history/lib/createHashHistory'
 import $ from 'jquery'
 import * as PollAction from '../actions/PollAction'
 import PollStore from '../stores/PollStore'
+import _ from 'lodash'
 
 const history = createHashHistory({ queryKey: false })
 //TODO check for Login, MOOOVEE TO ACTIONS
@@ -67,7 +68,7 @@ export default class Create extends React.Component {
     let { title, options } = this.state,
         creator = localStorage.getItem("_polley_user_email")
     if(title.length>0 && options[0].length>0 && options[1].length>0)
-      PollAction.createPoll(title, options, creator)
+      PollAction.createPoll(_.capitalize(title), options, creator)
     else
       window.alert("Error: Missing Title or Options")
   }
