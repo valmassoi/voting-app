@@ -32,7 +32,7 @@ export default class Home extends React.Component {
   }
 
   getPolls() {
-    this.sortBy(PollStore.getAll(), "recent")
+    this.sortBy(PollStore.getAll(), "recent")//TODO wait for data
   }
 
   sortBy(polls, sortby, query) {
