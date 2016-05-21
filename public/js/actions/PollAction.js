@@ -8,7 +8,7 @@ export function createPoll(title, options, creator) {
     type: "POST",
     url: url,
     data: { title, options, creator },
-    success: (result) => dispatcher.dispatch({type: "CREATE_POLL", id: result.id}),
+    success: result => dispatcher.dispatch({type: "CREATE_POLL", result}),
     dataType: "json"
   })
 }

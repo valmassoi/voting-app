@@ -27,8 +27,10 @@ export default class Dashboard extends React.Component {
 
   getPolls() {
     let polls = PollStore.getAll().sort((x,y)=> x.date < y.date)
+    let storedCreator = localStorage.getItem("_polley_user_email")
+    let userPolls = polls.filter((poll) => poll.users.creator==storedCreator)
     this.setState({
-      polls,
+      polls: userPolls,
       loaded: true
     })
   }
