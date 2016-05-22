@@ -101,18 +101,16 @@ export default class Dashboard extends React.Component {
         <table class="table table-striped table-hover ">
           <thead>
             <tr>
-              {( screen.width > 600 ) ? <th> </th> : ""}
-              <th><button onClick={this.nameSorter.bind(this)}><span class={"glyphicon glyphicon-menu-"+this.state.nameSort} aria-hidden="true"></span> Name</button></th>
-              <th><button onClick={this.voteSorter.bind(this)}><span class={"glyphicon glyphicon-menu-"+this.state.voteSort} aria-hidden="true"></span> Votes</button></th>
-              <th><button onClick={this.dateSorter.bind(this)}><span class={"glyphicon glyphicon-menu-"+this.state.dateSort} aria-hidden="true"></span> Date</button></th>
+              <th><button onClick={this.nameSorter.bind(this)}><span class={"glyphicon glyphicon-menu-"+this.state.nameSort} aria-hidden="true" /> Name</button></th>
+              <th><button onClick={this.voteSorter.bind(this)}><span class={"glyphicon glyphicon-menu-"+this.state.voteSort} aria-hidden="true" /> Votes</button></th>
+              <th><button onClick={this.dateSorter.bind(this)}><span class={"glyphicon glyphicon-menu-"+this.state.dateSort} aria-hidden="true" /> Date</button></th>
               <th>Settings</th>
             </tr>
           </thead>
           <tbody>
-          {this.state.loaded ? this.state.polls.map( (poll, i) => {
-               return (
+            {this.state.loaded ? this.state.polls.map( (poll, i) => {
+              return (
                 <tr key={"tr-"+i}>
-                  {( screen.width > 600 ) ? <td key={"td1-"+i}>{i+1}</td> : ""}
                   <td key={"td2-"+i}><Link to={"/u/"+poll.users.creator+"/"+poll._id}>{poll.data.title}</Link></td>
                   <td key={"td3-"+i}>{poll.data.results.reduce((a, b) => +a + +b, 0)}</td>
                   <td key={"td4-"+i}>{this.prettyDate(poll.date)}</td>
@@ -121,10 +119,9 @@ export default class Dashboard extends React.Component {
                     <button id={"delete-"+i} key={"delete-"+i} class="btn btn-sm btn-danger" onClick={this.delete.bind(this)}>Delete</button>
                   </td>
                 </tr>
-              )
-            })
-            : ""
-          }
+                )
+              }) : ""
+            }
           </tbody>
         </table>
           {this.state.polls.length > 0 ? "" : <Link to="create" style={{display: 'block', width: '300'}} class="btn btn-primary btn-lg centered">Create First Poll</Link>}
