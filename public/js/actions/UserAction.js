@@ -1,6 +1,6 @@
 import dispatcher from '../dispatcher'
 import $ from 'jquery'
-const local = ''//TODO CHANGE URL
+const local = 'http://192.168.1.108:8081'//TODO CHANGE URL
 
 export function createUser(email, hash) {
   const url = local+'/api/POST/USER'

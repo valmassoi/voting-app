@@ -48,25 +48,26 @@ export default class Home extends React.Component {
   }
 
   sortBy(polls, sortby, query) {
-    console.log(polls, sortby, query);
-    let sort = [ ]
+    let sort = polls.concat()
     if (sortby == "recent" || sortby == null){
-      sort = polls.sort((x,y)=> x.date < y.date)
+      sort.sort((x,y)=> x.date > y.date ? -1 : x.date < y.date ? 1 : 0)
     }
     if (sortby == "popular"){
-      sort = polls.sort((x,y)=> x.data.results.reduce((a, b) => +a + +b, 0)<y.data.results.reduce((a, b) => +a + +b, 0))
+      sort.sort((x,y)=> x.data.results.reduce((a, b) => +a + +b, 0)<y.data.results.reduce((a, b) => +a + +b, 0) ? 1
+      : x.data.results.reduce((a, b) => +a + +b, 0)>y.data.results.reduce((a, b) => +a + +b, 0)
+      ? -1 : 0)
     }
     if (sortby == "random"){
-      sort = polls
-      for (var i = sort.length - 1; i > 0; i--) {
-       var j = Math.floor(Math.random() * (i + 1));
-       var temp = sort[i];
+      // sort = polls
+      for (let i = sort.length - 1; i > 0; i--) {
+       let j = Math.floor(Math.random() * (i + 1));
+       let temp = sort[i];
        sort[i] = sort[j];
        sort[j] = temp;
       }
     }
     if (sortby == "search"){
-      sort = polls.sort( (a,b) => b.data.title.trim().toLowerCase().includes(query.toLowerCase()) )
+      sort.sort( (a,b) => b.data.title.trim().toLowerCase().includes(query.toLowerCase()) )
     }
     this.setState({
       polls: sort,

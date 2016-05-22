@@ -49,39 +49,45 @@ export default class Dashboard extends React.Component {
     let natural = month + " " + day + ", " + year
     return natural
   }
-  nameSorter() {
+  nameSorter() {//TODO combine all the sorters and pass an type arg
     let nameSort = ""
     this.state.nameSort=="down" ? nameSort = "up" : nameSort = "down"
-    let polls = [ ]
+    let polls = this.state.polls.concat()
     if (nameSort=="down"){
-      polls = this.state.polls.sort((x,y)=> x.data.title > y.data.title)
+      polls.sort((x,y)=> x.data.title > y.data.title ? 1
+      : x.data.title < y.data.title ? -1 : 0)
     }
     else{
-      polls = this.state.polls.sort((x,y)=> x.data.title < y.data.title)
+      polls.sort((x,y)=> x.data.title > y.data.title ? -1
+      : x.data.title < y.data.title ? 1 : 0)
     }
     this.setState({ polls, dateSort:null, nameSort, voteSort: null })
   }
   voteSorter() {
     let voteSort = ""
     this.state.voteSort=="down" ? voteSort = "up" : voteSort = "down"
-    let polls = [ ]
+    let polls = this.state.polls.concat()
     if (voteSort=="down"){
-      polls = this.state.polls.sort((x,y)=> x.data.results.reduce((a, b) => +a + +b, 0)<y.data.results.reduce((a, b) => +a + +b, 0))
+      polls.sort((x,y)=> x.data.results.reduce((a, b) => +a + +b, 0)<y.data.results.reduce((a, b) => +a + +b, 0) ? 1
+      : x.data.results.reduce((a, b) => +a + +b, 0)>y.data.results.reduce((a, b) => +a + +b, 0)
+      ? -1 : 0)
     }
     else{
-      polls = this.state.polls.sort((x,y)=> x.data.results.reduce((a, b) => +a + +b, 0)>y.data.results.reduce((a, b) => +a + +b, 0))
+      polls.sort((x,y)=>  x.data.results.reduce((a, b) => +a + +b, 0)<y.data.results.reduce((a, b) => +a + +b, 0) ? -1
+      : x.data.results.reduce((a, b) => +a + +b, 0)>y.data.results.reduce((a, b) => +a + +b, 0)
+      ? 1 : 0)
     }
     this.setState({ polls, dateSort:null, nameSort: null, voteSort })
   }
   dateSorter() {
     let dateSort = ""
     this.state.dateSort=="down" ? dateSort = "up" : dateSort = "down"
-    let polls = [ ]
+    let polls = this.state.polls.concat()
     if (dateSort=="down"){
-      polls = this.state.polls.sort((x,y)=> x.date < y.date)
+      polls.sort((x,y)=> x.date < y.date ? 1 : x.date > y.date ? -1 : 0)
     }
     else{
-      polls = this.state.polls.sort((x,y)=> x.date > y.date)
+      polls.sort((x,y)=> x.date < y.date ? -1 : x.date > y.date ? 1 : 0)
     }
     this.setState({ polls, dateSort, nameSort: null, voteSort: null })
   }
