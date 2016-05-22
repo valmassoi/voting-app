@@ -68,7 +68,7 @@ export default class Home extends React.Component {
       }
     }
     if (sortby == "search"){
-      sort.sort( (a,b) => b.data.title.trim().toLowerCase().includes(query.toLowerCase()) )
+      sort.sort( (a,b) => b.data.title.trim().toLowerCase().includes(query.toLowerCase())?1:0 )
     }
     this.setState({
       polls: sort,
