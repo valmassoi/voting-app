@@ -22,7 +22,7 @@ export default class Create extends React.Component {
   }
 
   componentWillMount() {
-    let user=UserStore.getEmail()//localStorage.getItem("_polley_user_email")
+    let user=UserStore.getEmail()
     if (!user)
       history.push('/signup')
     else
@@ -35,11 +35,11 @@ export default class Create extends React.Component {
   }
 
   setId() {
-    console.log("set id");
     this.setState({
       id: PollStore.getId()
     })
-    $("#success-alert").removeClass("hidden")
+    if(this.state.id.length!=0)
+      $("#success-alert").removeClass("hidden")
   }
 
   addOption() {
