@@ -96,7 +96,6 @@ function addOption(options, results, id) {
   mongo.connect(dbUrl, (err, db) => {
    if (err) throw err
    let polls = db.collection('polls')
-   console.log(options, results, id);
    polls.update(
      { "_id": ObjectId(id) },
      {
@@ -119,12 +118,23 @@ function addUser(email, password) {
     email,
     password
   }
-  console.log(user);
   mongo.connect(dbUrl, (err, db) => {
    if (err) throw err
    let users = db.collection('users')
    users.insert(user, (err, data) => {
       if (err) throw err
+      db.close()
+    })
+  })
+}
+
+function getUsers(callback) {
+  mongo.connect(dbUrl, (err, db) => {
+    if (err) throw err
+    let users = db.collection('users')
+    let data = users.find().toArray((err, all) => {
+      if (err) throw err
+      callback(all)
       db.close()
     })
   })
@@ -150,7 +160,6 @@ function getUserHash(email, callback) {
 }
 
 app.get('/api/polls', (req, res) => {
-  // let params = req.params.param
   fetchPolls( data => {
     res.writeHead(200, { "Content-Type": "application/json" });
     let json = JSON.stringify(data)
@@ -183,6 +192,13 @@ app.post('/api/POST/USER', (req, res) => {
   addUser(req.body.email, req.body.hash)
   res.writeHead(200, { 'Content-Type':  'application/json' })
   res.end('{"success" : "POST success", "status" : 200}');
+})
+app.get('/api/GET/USERS', (req, res) => {
+  getUsers( data => {
+    res.writeHead(200, { "Content-Type": "application/json" });
+    let json = JSON.stringify(data)
+    res.end(json)
+  })
 })
 app.get('/api/GET/USER/:email', (req, res) => {
   getUserHash(req.params.email, data => {

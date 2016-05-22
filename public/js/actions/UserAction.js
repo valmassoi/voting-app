@@ -20,6 +20,13 @@ export function getUser(email) {
   })
 }
 
+export function getUsers() {
+  const url = local+'/api/GET/USERS/'
+  $.getJSON(url, (users) => {
+    dispatcher.dispatch({type: "GOT_USERS", users})
+  })
+}
+
 export function login(email) {
   dispatcher.dispatch({type: "LOGIN", email: email})
 }

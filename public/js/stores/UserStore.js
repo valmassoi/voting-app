@@ -8,6 +8,11 @@ class UserStore extends EventEmitter {
     super()
     this.hash = "",
     this.email = ""
+    this.users = [ ]
+  }
+
+  getUsers() {
+    return this.users
   }
 
   getHash() {
@@ -27,6 +32,10 @@ class UserStore extends EventEmitter {
       case "GOT_HASH": {
         this.hash = action.hash
         this.emit("change")
+        break
+      }
+      case "GOT_USERS": {
+        this.users = action.users
         break
       }
       case "LOGIN": {

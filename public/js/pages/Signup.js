@@ -31,6 +31,10 @@ export default class Signup extends React.Component {
       }
   }
 
+  componentWillMount() {
+    UserAction.getUsers()
+  }
+
   handleEmailChange(e) {
     let test = checkEmail(e.target.value),
         validEmail=""
@@ -42,7 +46,6 @@ export default class Signup extends React.Component {
   handlePasswordChange(e) {
     let password = e.target.value,
         passwordSuccess = ""
-    console.log(owasp.test(password).strong);
     if (owasp.test(password).strong)
       passwordSuccess = "has-success"
     this.setState({ password, passwordSuccess })
@@ -62,7 +65,10 @@ export default class Signup extends React.Component {
 
   submit(e) {
     e.preventDefault()
+    let users = UserStore.getUsers()
     let { email, password, passwordTwo} = this.state
+    let count = 0
+    users.forEach( user => user.email==email ? count++ : count+=0)
     let passTest = owasp.test(password)
     if(!passTest.strong) {
       let reqLoop = "",
@@ -76,9 +82,12 @@ export default class Signup extends React.Component {
       this.setState({ error: "has-error" })
       window.alert("Passwords are not the same, please try again")//change to bootstrap alert
     }
-    else if(!checkEmail(this.state.email)) {
+    else if(!checkEmail(email)) {
       this.setState({ validEmail: "has-error" })
       window.alert("Not a valid email, please try again")//change to bootstrap alert
+    }
+    else if(count>0){
+      window.alert("Email is already taken, please try again or login")
     }
     else {
       let hash = generateHash(password)
