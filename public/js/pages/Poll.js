@@ -70,7 +70,7 @@ export default class Poll extends React.Component {
     if(_.contains(usernames, user)&&user!="") { //TODO Allow a change vote, store like: [user, vote]
       window.alert(`You have already voted`)
     }
-    else if(_.contains(ips, ip)) {
+    else if(_.contains(ips, ip)&&ip!="") {
       window.alert(`Your ip address: ${ip} has already voted`)
     }
     else{
