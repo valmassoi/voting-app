@@ -61,7 +61,7 @@ export default class Poll extends React.Component {
   }
 
   submit(option){
-    let ip = "::ffff:192.168.1.48",
+    let ip = "::ffff:192.168.1.108",
         ips = this.state.poll.users.ips,
         voted = this.state.voted
     if (_.contains(ips, ip)) {//TODO also check username ~ allow change vote (need to know old)

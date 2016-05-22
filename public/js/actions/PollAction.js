@@ -1,6 +1,6 @@
 import dispatcher from '../dispatcher'
 import $ from 'jquery'
-const local = 'http:/172.20.10.8:8081'//TODO CHANGE URL
+const local = ''//TODO CHANGE URL
 
 export function createPoll(title, options, creator) {
   const url = local+'/api/polls/POST'
@@ -14,10 +14,12 @@ export function createPoll(title, options, creator) {
 }
 
 export function loadPolls(sortby) {
-  // dispatcher.dispatch({type: "FETCH_POLLS"})TODO DELETE? ->for loader
+  dispatcher.dispatch({type: "FETCH_POLLS"})
   const url = local+'/api/polls'
   $.getJSON(url, (json) => {
     dispatcher.dispatch({type: "RECEIVE_POLLS", json})
+  }).done(function() {
+    dispatcher.dispatch({type: "POLLS_LOADED"})
   })
 }
 

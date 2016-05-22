@@ -11,31 +11,47 @@ export default class Home extends React.Component {
     super(props);
     this.state = {
         polls: [ ],
-        loaded: false
+        loaded: false,
+        sortby: "recent",
+        search: ""
       }
   }
 
   componentWillMount() {
     PollAction.loadPolls()
-    PollStore.on("change", this.getPolls.bind(this))
+    // PollStore.on("change", this.getPolls.bind(this))
+    PollStore.on("load_change", this.getPolls.bind(this))
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.params.sortby)
-      this.sortBy(this.state.polls, nextProps.params.sortby)
-    if (nextProps.params.query)
-      this.sortBy(this.state.polls, "search", nextProps.params.query)
+    console.log(nextProps.params);
+    let sortby = "",
+        search = ""
+    if(nextProps.params.sortby)
+      sortby = nextProps.params.sortby
+    if(nextProps.params.query) {
+      sortby = "search"
+      search = nextProps.params.query
+    }
+    this.setState({ sortby, search })
+    this.sortBy(this.state.polls, sortby, search)
   }
 
   componentWillUnmount() {
-    PollStore.removeAllListeners("change")
+    PollStore.removeAllListeners("load_change")
   }
 
   getPolls() {
-    this.sortBy(PollStore.getAll(), "recent")//TODO wait for data
+    console.log(PollStore.getLoad());
+    if (PollStore.getLoad()){
+      let polls = PollStore.getAll()
+      this.setState({ polls })
+      this.sortBy(polls, this.state.sortby, this.state.search)//TODO wait for data
+    }
   }
 
   sortBy(polls, sortby, query) {
+    console.log(polls, sortby, query);
     let sort = [ ]
     if (sortby == "recent" || sortby == null){
       sort = polls.sort((x,y)=> x.date < y.date)

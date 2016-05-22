@@ -8,10 +8,15 @@ class PollStore extends EventEmitter {
     super()
     this.id = 0
     this.polls = [ ]
+    this.loaded = false
   }
 
   getId() {
     return this.id
+  }
+
+  getLoad() {
+    return this.loaded
   }
 
   getPoll(id) {//BETTER TO SEARCH DB???
@@ -29,23 +34,38 @@ class PollStore extends EventEmitter {
     switch(action.type) {
       case "CREATE_POLL": {//TODO MOVE FROM create.js - done?
         this.id = action.result.id
+        this.emit("change")
+        break
+      }
+      case "FETCH_POLLS": {
+        this.loaded = false
         break
       }
       case "RECEIVE_POLLS": {
         this.polls = action.json
+        this.emit("change")
+        break
+      }
+      case "POLLS_LOADED": {
+        this.loaded = true
+        console.log("loaded_polls");
+        this.emit("load_change")
         break
       }
       case "VOTE": {
+        this.emit("change")
         break
       }
       case "DELETE_POLL": {
+        this.emit("change")
         break
       }
       case "EDIT_POLL": {
+        this.emit("change")
         break
       }
     }
-    this.emit("change")
+
   }
 
   componentWillUnmount() {
