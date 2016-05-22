@@ -25,7 +25,7 @@ export default class Home extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     console.log(nextProps.params);
-    let sortby = "",
+    let sortby = "recent",
         search = ""
     if(nextProps.params.sortby)
       sortby = nextProps.params.sortby
@@ -42,12 +42,9 @@ export default class Home extends React.Component {
   }
 
   getPolls() {
-    console.log(PollStore.getLoad());
-    if (PollStore.getLoad()){
-      let polls = PollStore.getAll()
-      this.setState({ polls })
-      this.sortBy(polls, this.state.sortby, this.state.search)//TODO wait for data
-    }
+    let polls = PollStore.getAll()
+    this.setState({ polls })
+    this.sortBy(polls, this.state.sortby, this.state.search)//TODO wait for data
   }
 
   sortBy(polls, sortby, query) {
