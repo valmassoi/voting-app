@@ -27,6 +27,13 @@ export function getUsers() {
   })
 }
 
+export function getIp() {
+  const url = local+'/api/GET/IP/'
+  $.getJSON(url, (ip) => {
+    dispatcher.dispatch({type: "GOT_IP", ip})
+  })
+}
+
 export function login(email) {
   dispatcher.dispatch({type: "LOGIN", email: email})
 }

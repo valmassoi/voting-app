@@ -61,7 +61,7 @@ function postPolls(title, username, options, callback) {
   })
 }
 
-function votePoll(id, vote, ip) {
+function votePoll(id, vote, user, ip) {
   mongo.connect(dbUrl, (err, db) => {
    if (err) throw err
    let polls = db.collection('polls')
@@ -72,7 +72,8 @@ function votePoll(id, vote, ip) {
          "data.results": vote,
        },
        $push: {
-         "user.ips": ip
+         "users.usernames": user,
+         "users.ips": ip
        }
 
     },
@@ -173,10 +174,13 @@ app.post('/api/polls/POST', (req, res) => {
   res.writeHead(200, { 'Content-Type':  'application/json' })
 })
 app.post('/api/polls/VOTE', (req, res) => {
-  votePoll(req.body.id, req.body.vote, req.ip)
-  console.log(req.ip);
+  votePoll(req.body.id, req.body.vote, req.body.user, req.ip)
   res.writeHead(200, { 'Content-Type':  'application/json' })
   res.end('{"success" : "POST success", "status" : 200}');
+})
+app.get('/api/GET/IP', (req, res) => {
+  res.writeHead(200, { 'Content-Type':  'application/json' })
+  res.end(JSON.stringify(req.ip));
 })
 app.post('/api/polls/DELETE', (req, res) => {
   deletePoll(req.body.id)

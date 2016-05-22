@@ -6,6 +6,7 @@ import Chart from 'chart.js'
 import { Bar } from 'react-chartjs'
 import * as PollAction from '../actions/PollAction'
 import PollStore from '../stores/PollStore'
+import * as UserAction from '../actions/UserAction'
 import UserStore from '../stores/UserStore'
 import _ from 'lodash'
 
@@ -37,6 +38,7 @@ export default class Poll extends React.Component {
       }
   }
   componentWillMount() {
+    UserAction.getIp()
     let user=UserStore.getEmail()
     let pollid = this.props.params.pollid,
         username = this.props.params.username
@@ -61,18 +63,21 @@ export default class Poll extends React.Component {
   }
 
   submit(option){
-    let ip = "::ffff:192.168.1.108",
+    let ip = UserStore.getIp(),
         ips = this.state.poll.users.ips,
-        voted = this.state.voted
-    if (_.contains(ips, ip)) {//TODO also check username ~ allow change vote (need to know old)
+        usernames = this.state.poll.users.usernames,
+        { voted, user, vote } = this.state
+    if(_.contains(usernames, user)&&user!="") { //TODO Allow a change vote, store like: [user, vote]
+      window.alert(`You have already voted`)
+    }
+    else if(_.contains(ips, ip)) {
       window.alert(`Your ip address: ${ip} has already voted`)
     }
     else{
       let results = this.state.poll.data.results
-      results[this.state.vote]++
-      this.setState({ results, ips: ips.push(ip), voted: true })
-      PollAction.vote(this.state.pollid, results)
-      console.log(this.state.poll.users.ips)
+      results[vote]++
+      this.setState({ results, ips: ips.push(ip), usernames: usernames.push(user), voted: true  })
+      PollAction.vote(this.state.pollid, results, user, ip)
     }
   }
 
@@ -93,7 +98,6 @@ export default class Poll extends React.Component {
   }
 
   addOption() {
-    //TODO hit backend with newOption and add to results
     let options = this.state.poll.data.options.concat(this.state.newOption),
         results = this.state.poll.data.results.concat(0),
         newOption = ""
@@ -162,7 +166,7 @@ export default class Poll extends React.Component {
           </div>
           :<div> </div>
         }
-        {(this.state.voted)?<p>change vote?</p>:
+        {(this.state.voted)? "" :
         <div class={"form-container centered "+loadedHidden} style={{position: 'relative'}}>
           <div style={{position: 'absolute', right: '16px', top:'16px'}}>
             <button class={"btn btn-danger "+deleteClass} onClick={this.delete.bind(this)}>Delete</button>

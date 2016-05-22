@@ -4,6 +4,7 @@ import Chart from 'chart.js'
 import { Bar } from 'react-chartjs'
 import * as PollAction from '../actions/PollAction'
 import PollStore from '../stores/PollStore'
+import _ from 'lodash'
 //TODO pageination
 export default class Home extends React.Component {
 
@@ -125,7 +126,7 @@ export default class Home extends React.Component {
                 <div key={i} class="polls">
                   <Link to={"/u/"+poll.users.creator+"/"+poll._id} class="btn btn-default vote-now">Vote</Link>
                   <h1 key={poll._id+i}>  <Link to={"/u/"+poll.users.creator+"/"+ poll._id}>{poll.data.title}</Link></h1>
-                  <h6 key={poll.users.creator+i}><strong>By {poll.users.creator}</strong></h6>
+                  <h6 key={poll.users.creator+i}><strong>By {_.capitalize(poll.users.creator.split("@")[0])}</strong></h6>
                   <Bar key={poll.date+i} data={this.chartData(i)} options={chartOptions} />
                 </div>
                )

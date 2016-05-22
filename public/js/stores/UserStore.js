@@ -6,13 +6,18 @@ import dispatcher from '../dispatcher'
 class UserStore extends EventEmitter {
   constructor() {
     super()
-    this.hash = "",
+    this.hash = ""
     this.email = ""
     this.users = [ ]
+    this.ip = ""
   }
 
   getUsers() {
     return this.users
+  }
+
+  getIp() {
+    return this.ip
   }
 
   getHash() {
@@ -38,9 +43,12 @@ class UserStore extends EventEmitter {
         this.users = action.users
         break
       }
+      case "GOT_IP": {
+        this.ip = action.ip
+        break
+      }
       case "LOGIN": {
         this.email = action.email
-        console.log("LOGIN",this.email);
         this.emit("login_change")
         break
       }
@@ -62,6 +70,6 @@ class UserStore extends EventEmitter {
 
 const userStore = new UserStore
 dispatcher.register(userStore.handleActions.bind(userStore))
-// window.userStore = userStore//TODO for testing
-// window.dispatcher = dispatcher//TODO for testing
+window.userStore = userStore//TODO for testing
+window.dispatcher = dispatcher//TODO for testing
 export default userStore

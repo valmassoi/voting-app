@@ -23,12 +23,12 @@ export function loadPolls(sortby) {
   })
 }
 
-export function vote(id, vote) {//TODO CHECK IP/store //TODO Build backendpoint
+export function vote(id, vote, user, ip) {//TODO CHECK IP/store //TODO Build backendpoint
   const url = local+'/api/polls/VOTE'
   $.ajax({
     type: "POST",
     url: url,
-    data: { id, vote },
+    data: { id, vote, user, ip },
     success: (result) => dispatcher.dispatch({type: "VOTE"}),
     dataType: "json"
   })
