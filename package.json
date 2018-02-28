@@ -45,7 +45,7 @@
     "react-chartjs": "git+https://github.com/ianks/react-chartjs.git#label-fix-v2",
     "react-dom": "^0.14.8",
     "react-router": "^1.0.3",
-    "webpack": "^1.13.0",
+    "webpack": "^2.2.0",
     "webpack-dev-server": "^1.14.1"
   },
   "engines": {
